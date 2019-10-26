@@ -1,0 +1,241 @@
+.header{
+	padding: 2%;
+}
+
+.logo{
+	float:left;
+}
+
+.h_icon{
+	float: right;
+	width: 10.777%;
+}
+
+.icon1:before,.icon1:after {
+	content: "";
+	display: table;
+}
+.icon1:after {
+	clear: both;
+}
+.icon1 li {
+	float: left;
+	position: relative;
+}
+.icon1 li:last-child{
+	border-right:none;
+}
+.icon1 li:hover > a {
+	color: #fafafa;
+}
+*html .icon1 li a:hover { /* IE6 only */
+	color: #fafafa;
+}
+.icon1 ul {
+	width:300px;
+	margin: 20px 0 0 0;
+	opacity: 0;
+	visibility: hidden;
+	position: absolute;
+	top: 50px;
+	z-index: 1;
+	right: -60px;
+	background: #ffffff;
+	-webkit-transition: all .2s ease-in-out;
+	-moz-transition: all .2s ease-in-out;
+	-ms-transition: all .2s ease-in-out;
+	-o-transition: all .2s ease-in-out;
+	transition: all .2s ease-in-out;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	-o-border-radius: 5px;
+	border-radius: 5px;
+	box-shadow: 0px 2px 6px #777777;
+	-webkit-box-shadow: 0px 2px 6px #777777;
+	-moz-box-shadow: 0px 2px 6px #777777;
+	-o-box-shadow: 0px 2px 6px #777777;
+}
+.icon1 li:hover > ul {
+	opacity: 1;
+	visibility: visible;
+	margin: 0;
+}
+.icon1 ul ul {
+	top: 6px;
+	left: 20px;
+	margin: 0 0 0 20px;
+	border-radius: 5px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	-o-border-radius: 5px;
+}
+.icon1 ul li {
+	float: none;
+	display: block;
+	border: 0;
+}
+.icon1 ul li:first-child{
+	border-top:none;
+}
+.icon1 ul li:first-child a{
+	border-top-left-radius: 5px;
+	-webkit-border-top-left-radius: 5px;
+	-moz-border-top-left-radius: 5px;
+	-o-border-top-left-radius: 5px;
+}
+.icon1 ul li:last-child {   
+	-moz-box-shadow: none;
+	-webkit-box-shadow: none;
+	box-shadow: none;    
+}
+.icon1 ul a {    
+	_height: 10px; /*IE6 only*/
+	white-space: nowrap;
+	float: none;
+	text-transform: none;
+}
+.active-icon{
+	display: block;
+}
+.icon1 ul li:first-child > a:after {
+	content: '';
+	position: absolute;
+	right: 0%;
+	top: -30px;
+	border-left: 10px solid transparent;
+	border-right:10px solid transparent;
+	border-bottom:10px solid #f0f0f0;
+}
+.icon1 ul ul li:first-child a:after {
+	left: -100px;
+	top: 0%;
+	margin-top: 20px;
+	border-left: 0;	
+	border-bottom:20px solid transparent;
+	border-top: 20px solid transparent;
+	border-right:20px solid #323757;
+}
+/* Mobile */
+.icon1-trigger {
+	display: none;
+}
+.sub-icon1 img{
+	border:none;
+	display:inline-block;
+	vertical-align:middle;
+}
+
+.c1{
+	background: url('/assets/images/icon/avataricon.png');
+	width: 46px;
+	height: 46px;
+	/* display: inline-block; */
+	vertical-align: middle;
+	/* margin-top: 2px;  */
+}
+.c1 i{
+	font-size: 2em;
+	color: #999999;
+	padding-left: 50px;
+	line-height: 1.5em;
+	font-weight: 600;
+}
+
+.icon1 .profile_img {
+	margin-top: 3px;
+}
+
+.sub-icon1 ul li h3{
+	text-align:center;
+	font-size: 1.5em;
+	color: #4CCFC1;
+	margin-bottom: 4%;
+}
+.sub-icon1 ul li p{
+	font-family: 'Source Sans Pro', sans-serif;
+	text-align:center;
+	font-size: 0.8925em;
+	color: #555555;
+	line-height: 1.8em;
+}
+.sub-icon1.list{
+	padding: 20px 10px;
+	z-index: 999;
+}
+.sub-icon1 ul li p a{
+	color: #4CCFC1;
+}
+.sub-icon1 ul li p a:hover{
+	color: #555555;
+	text-decoration:underline;
+}
+
+.active-icon{
+	display: block;
+}
+
+.sub-icon1.list{
+	padding: 20px 10px;
+	z-index: 999;
+}
+
+
+.h_search{
+	float: right;
+	position: relative;
+	border: 1px solid rgb(216, 216, 216);
+	width: 40.3333%;
+	margin: 0.5% 15% 0;
+	border-radius: 2px;
+	-webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	-o-border-radius: 2px;
+}
+.h_search input[type="text"]{
+	-webkit-appearance: none;
+	padding: 6px 16px;
+	outline: none;
+	color: #312c3c;
+	background: #FFFFFF;
+	border: none;
+	width: 84.33333%;
+	line-height: 1.5em;
+	position: relative;
+	font-size: 0.8725em;
+	text-transform: capitalize;
+}
+.h_search input[type="submit"]{
+	-webkit-appearance: none;
+	background: url('/assets/images/search.png') no-repeat 10px 5px;
+	padding: 6px 0px;
+	border: none;
+	cursor: pointer;
+	width: 8.33%;
+	line-height: 1.5em;
+	outline: none;
+	position: absolute;
+	right: 0px;
+}
+.h_search input[type="submit"]:hover {
+	background: url('/assets/images/search_h.png') no-repeat 10px 5px;
+}
+
+@media only screen and (max-width: 1024px) {
+	.wrap{
+		width:95%;
+	}
+	.h_search input[type="submit"] {
+		width: 10.33%;
+	}
+}
+
+@media only screen and (max-width: 800px) {
+	.wrap{
+		width:95%;
+	}
+	.h_search {
+		display: none;
+	}
+}
+
+ol,ul{list-style:none;margin:0;padding:0;}

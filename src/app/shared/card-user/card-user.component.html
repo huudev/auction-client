@@ -1,0 +1,136 @@
+<form [formGroup]="userForm" (ngSubmit)="submitForm()">
+	<div *ngIf="enableIdInput" class="form-group row">
+		<label for="inputId" class="col-sm-2 col-form-label">ID</label>
+		<div class="col-sm-10">
+			<input formControlName="id"
+				[class.is-invalid]="userForm.get('id').invalid&&userForm.get('id').touched"
+				class="form-control" id="inputId" placeholder="Tên đăng nhập">
+			<div class="invalid-feedback">
+				ID không tồn tại
+			</div>
+		</div>
+
+	</div>
+	<div class="form-group row">
+		<label for="inputUsername" class="col-sm-2 col-form-label">Tên đăng nhập</label>
+		<div class="col-sm-10">
+			<input formControlName="userName"
+				[class.is-invalid]="userForm.get('userName').invalid&&userForm.get('userName').touched"
+				class="form-control" id="inputUsername" placeholder="Tên đăng nhập">
+			<div class="invalid-feedback">
+				Tên đăng nhập rỗng
+			</div>
+		</div>
+
+	</div>
+	<div [class.d-none]="!createUser" class="form-group row">
+		<label for="inputPassword" class="col-sm-2 col-form-label">Mật khẩu</label>
+		<div class="col-sm-10">
+			<input formControlName="password"
+				[class.is-invalid]="userForm.get('password').invalid&&userForm.get('password').touched" type="password"
+				class="form-control" id="inputPassword" placeholder="Password">
+			<div class="invalid-feedback">
+				Mật khẩu rỗng
+			</div>
+		</div>
+	</div>
+	<div class="form-group row">
+		<label for="inputLastName" class="col-sm-2 col-form-label">Họ</label>
+		<div class="col-sm-10">
+			<input formControlName="lastName"
+				[class.is-invalid]="userForm.get('lastName').invalid&&userForm.get('lastName').touched"
+				class="form-control" id="inputLastName" placeholder="Họ">
+			<div class="invalid-feedback">
+				Họ rỗng
+			</div>
+		</div>
+	</div>
+
+	<div class="form-group row">
+		<label for="inputFirstName" class="col-sm-2 col-form-label">Tên</label>
+		<div class="col-sm-10">
+			<input formControlName="firstName"
+				[class.is-invalid]="userForm.get('firstName').invalid&&userForm.get('firstName').touched"
+				class="form-control" id="inputFirstName" placeholder="Tên">
+			<div class="invalid-feedback">
+				Tên rỗng
+			</div>
+		</div>
+	</div>
+
+	<div class="form-group row">
+		<label for="inputAddress" class="col-sm-2 col-form-label">Địa chỉ</label>
+		<div class="col-sm-10">
+			<textarea formControlName="address"
+				[class.is-invalid]="userForm.get('address').invalid&&userForm.get('address').touched"
+				class="form-control" id="inputAddress" placeholder="Địa chỉ"></textarea>
+			<div class="invalid-feedback">
+				Tên rỗng
+			</div>
+		</div>
+	</div>
+
+	<div class="form-group row">
+		<label for="inputBirthday" class="col-sm-2 col-form-label">Ngày sinh</label>
+		<div class="col-sm-10">
+			<input formControlName="birthday"
+				[class.is-invalid]="userForm.get('birthday').invalid&&userForm.get('birthday').touched" type="date"
+				class="form-control" id="inputBirthday" placeholder="Ngày sinh">
+			<div class="invalid-feedback">
+				Ngày sinh rỗng
+			</div>
+		</div>
+	</div>
+
+	<div class="form-group row">
+		<label for="inputPhoneNumber" class="col-sm-2 col-form-label">Số điện thoại</label>
+		<div class="col-sm-10">
+			<input formControlName="phoneNumber"
+				[class.is-invalid]="userForm.get('phoneNumber').invalid&&userForm.get('phoneNumber').touched"
+				class="form-control" id="inputPhoneNumber" placeholder="Số điện thoại">
+			<div class="invalid-feedback">
+				Số điện thoại rỗng
+			</div>
+		</div>
+	</div>
+
+	<div class="form-group row">
+		<label for="inputEmail" class="col-sm-2 col-form-label">Email</label>
+		<div class="col-sm-10">
+			<input formControlName="email"
+				[class.is-invalid]="userForm.get('email').invalid&&userForm.get('email').touched" class="form-control"
+				id="inputEmail" placeholder="Email">
+			<div class="invalid-feedback">
+				Email rỗng
+			</div>
+		</div>
+	</div>
+
+	<fieldset class="form-group">
+		<div class="row">
+			<legend class="col-form-label col-sm-2 pt-0">Loại</legend>
+			<div class="col-sm-10">
+				<div class="form-check">
+					<input class="form-check-input" type="radio" formControlName="role" id="roleA" value="USERA">
+					<label class="form-check-label" for="roleA">
+						Người đăng bán
+					</label>
+				</div>
+				<div class="form-check">
+					<input class="form-check-input" type="radio" formControlName="role" id="roleB" value="USERB">
+					<label class="form-check-label" for="roleB">
+						Người đấu giá
+					</label>
+				</div>
+				<div class="invalid-feedback">
+					Email rỗng
+				</div>
+			</div>
+		</div>
+	</fieldset>
+	<div class="form-group row">
+		<div class="col-sm-10">
+			<button type="submit" class="btn btn-primary" [disabled]="formPending||userForm.invalid">Xác nhận</button>
+		</div>
+	</div>
+</form>

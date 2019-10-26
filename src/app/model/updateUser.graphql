@@ -1,0 +1,8 @@
+ mutation updateUser($user: UserInput) {
+	updateUser(user: $user){
+		code
+		message
+		success
+		user { id }
+	}
+}

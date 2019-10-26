@@ -1,0 +1,10 @@
+query getAllUser{
+  users{
+    id
+    userName
+    amount
+    createTime
+    activeStatus
+    role
+  }
+}

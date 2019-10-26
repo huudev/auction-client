@@ -1,1 +1,106 @@
-/* You can add global styles to this file, and also import other style files */
+
+
+.clear {
+	clear: both;
+	display: block;
+	overflow: hidden;
+	visibility: hidden;
+	width: 0;
+	height: 0;
+  }
+
+ngb-carousel {
+    font-family: 'bebas_neueregular';
+	width: 100%;
+	min-width: 520px;
+	height: 480px;
+	position: relative;
+	margin: 0px auto;
+	overflow: hidden;
+	background: transparent url('assets/images/slider_bg.jpg') repeat 0% 0%;
+	box-shadow: 0px 1px 1px rgba(0,0,0,0.2), 0px -1px 4px #32AC9D;
+	-webkit-box-shadow: 0px 1px 1px rgba(0,0,0,0.2), 0px -1px 4px #32AC9D;
+	-moz-box-shadow: 0px 1px 1px rgba(0,0,0,0.2), 0px -1px 4px #32AC9D;
+	-o-box-shadow: 0px 1px 1px rgba(0,0,0,0.2), 0px -1px 4px #32AC9D;
+	-webkit-transition: background-position 1.4s ease-in-out 0.3s;
+	-moz-transition: background-position 1.4s ease-in-out 0.3s;
+	-o-transition: background-position 1.4s ease-in-out 0.3s;
+	-ms-transition: background-position 1.4s ease-in-out 0.3s;
+	transition: background-position 1.4s ease-in-out 0.3s;
+}
+
+ngb-carousel > a{
+	-moz-user-select: none;
+	-webkit-user-select: none;
+}
+ngb-carousel > a span{
+	position: absolute;
+	top: 50%;
+	height: 36px;
+	width: 36px;
+	border-radius: 5px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	-o-border-radius: 5px;
+	background: #38B4A7;
+	cursor: pointer;
+	z-index: 2000;
+	opacity: 0;
+	box-shadow: 1px 1px 1px rgba(0,0,0,0.1) inset,1px 1px 1px rgba(255,255,255,0.1);
+	-webkit-box-shadow: 1px 1px 1px rgba(0,0,0,0.1) inset,1px 1px 1px rgba(255,255,255,0.1);
+	-moz-box-shadow: 1px 1px 1px rgba(0,0,0,0.1) inset,1px 1px 1px rgba(255,255,255,0.1);
+	-o-box-shadow: 1px 1px 1px rgba(0,0,0,0.1) inset,1px 1px 1px rgba(255,255,255,0.1);
+	-webkit-transition: opacity 0.4s ease-in-out 0.2s;
+	-moz-transition: opacity 0.4s ease-in-out 0.2s;
+	-o-transition: opacity 0.4s ease-in-out 0.2s;
+	-ms-transition: opacity 0.4s ease-in-out 0.2s;
+	transition: opacity 0.4s ease-in-out 0.2s;
+}
+ngb-carousel:hover > a span{
+	opacity: 1;
+}
+ngb-carousel > a span:after{
+	content: '';
+	position: absolute;
+	width: 23px;
+	height: 23px;
+	top: 5px;
+	left: 5px;
+	/* background: transparent url('assets/images/arrows.png') no-repeat top left; */
+	border-radius: 5px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	-o-border-radius: 5px;
+}
+ngb-carousel > a span:hover:after{
+	
+}
+ngb-carousel > a span:active:after{
+	box-shadow: 1px 1px 1px rgba(255,255,255,0.1);
+	-webkit-box-shadow: 1px 1px 1px rgba(255,255,255,0.1);
+	-moz-box-shadow: 1px 1px 1px rgba(255,255,255,0.1);
+	-o-box-shadow: 1px 1px 1px rgba(255,255,255,0.1);
+}
+ngb-carousel > a span.carousel-control-next-icon:after{
+	background-position: 10px 4px;
+}
+ngb-carousel > a span.carousel-control-prev-icon:after{
+	background-position: -10px 4px;
+	left: 9px;
+}
+ngb-carousel > a span.carousel-control-prev-icon{
+	left: 15px;
+}
+ngb-carousel > a span.carousel-control-next-icon{
+	right: 15px;
+}
+
+app-footer div {
+	width: 100%;
+	background: #2DA89B;
+}
+
+.main_bg1{
+	border-top: 4px solid #47BEAF;
+	background: #40C4B2;
+}

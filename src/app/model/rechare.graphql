@@ -1,0 +1,8 @@
+ mutation rechare($userId: String,$change: Int) {
+	rechare(userId: $userId,change: $change){
+		code
+		message
+		success
+		newAmount
+	}
+}

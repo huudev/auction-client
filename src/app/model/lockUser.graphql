@@ -1,0 +1,8 @@
+mutation lockUser($id: String) {
+	lockUser(id: $id){
+		code
+		message
+		success
+		userId
+	}
+}

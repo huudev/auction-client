@@ -1,0 +1,16 @@
+query getUserById($id: ID!){
+  user(id: $id){
+    id
+    userName
+    createTime
+    amount
+    firstName
+    lastName
+    address
+    birthday
+    phoneNumber
+    email
+    activeStatus
+    role
+  }
+}
