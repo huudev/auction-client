@@ -7,10 +7,15 @@ import { AuthService } from '../service/auth.service';
   styleUrls: ['./nav-bar.component.css']
 })
 export class NavBarComponent implements OnInit {
-
+  isCollapse = true;
   constructor(private auth: AuthService) { }
 
   ngOnInit() {
+  }
+
+
+  tooggleMenu() {
+    this.isCollapse = !this.isCollapse;
   }
 
 }

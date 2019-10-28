@@ -26,10 +26,7 @@ export class ListAccountComponent implements OnInit, OnDestroy {
     this.route.paramMap.subscribe(param => {
       this.dataSubcription = this.allUserGQL.fetch({}, { fetchPolicy: 'network-only' }).pipe(take(1), map(result => {
         const users = result.data.users;
-        return users.map(user => {
-          user.createTime = new Date(user.createTime);
-          return user;
-        });
+        return users.filter(user => user.userName != 'admin')
       })).subscribe(users => {
         this.data = users;
       });

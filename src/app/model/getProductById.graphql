@@ -1,0 +1,40 @@
+query getProductById($ownerId: String!,$createTime: Date!){
+  auctionProduct(ownerId: $ownerId,createTime: $createTime){
+    ownerId
+	createTime
+	productName
+	startTime
+	endTime
+	avatar
+	images
+	currentPrice
+	floorPrice
+	ceilingPrice
+	priceStep
+	finalPrice
+	winner
+	description
+	status
+	auctionHistory {
+			time
+			price
+			userName
+			userId
+	}
+	productCategory {
+		id
+		name
+	}
+	auctionCondition {
+		vipAccount
+		accountActiveDay
+	}
+	auctionType {
+		id
+		name
+	}
+	owner {
+		userName
+	}
+  }
+}

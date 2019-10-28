@@ -7,6 +7,7 @@ import { NotFoundComponent } from './shared/not-found/not-found.component';
 import { LoginComponent } from './login/login.component';
 import { SignUpComponent } from './sign-up/sign-up.component';
 import { CreateAuctionComponent } from './create-auction/create-auction.component';
+import { AuthAdminGuardService } from './service/auth-admin-guard.service';
 
 const routes: Routes = [
   {

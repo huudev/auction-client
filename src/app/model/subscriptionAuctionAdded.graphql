@@ -1,0 +1,12 @@
+subscription subscriptionAuction($product: ProductInput) {
+	auctionAdded(product: $product){
+		ownerId
+		createTime
+		auctionHistory {
+			time
+			price
+			userName
+			userId
+		}
+	}
+} 
