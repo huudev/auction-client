@@ -10,7 +10,7 @@ import { NavBarComponent } from './nav-bar/nav-bar.component';
 import { LayoutComponent } from './layout/layout.component';
 import { RechargeComponent } from './recharge/recharge.component';
 import { UserComponent } from './user/user.component';
-
+import { Ng2GoogleChartsModule } from 'ng2-google-charts';
 
 
 @NgModule({
@@ -18,6 +18,7 @@ import { UserComponent } from './user/user.component';
     NavBarComponent, LayoutComponent, RechargeComponent, UserComponent],
   imports: [
     SharedModule,
+    Ng2GoogleChartsModule,
     AdminRoutingModule
   ]
 })

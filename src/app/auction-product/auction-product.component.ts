@@ -95,7 +95,7 @@ export class AuctionProductComponent implements OnInit, OnDestroy {
       }
     });
     this.auctionForm = this.fb.group({
-      auctionPrice: ['', [Validators.required, ngValidators.min(0)]]
+      auctionPrice: ['', [Validators.required, ngValidators.min(0), ngValidators.max(2000000000)]]
     });
 
   }

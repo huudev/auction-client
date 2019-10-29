@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy, OnChanges } from '@angular/core';
 import { AuctionProduct } from '../model';
 import { Subscription, interval } from 'rxjs';
 import { Tool } from '../service/tool';
@@ -22,6 +22,7 @@ export class ListProductComponent implements OnInit, OnDestroy {
         const currentDate = new Date();
         const startTime = new Date(product.startTime);
         const endTime = new Date(product.endTime);
+        
         if (currentDate.getTime() < startTime.getTime()) {
           product['liveStatus'] = 0;
         } else if (currentDate.getTime() > endTime.getTime()) {
@@ -37,5 +38,4 @@ export class ListProductComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.subscriptionTimer.unsubscribe();
   }
-
 }

@@ -1,0 +1,6 @@
+query thongKe {
+	thongKe {
+		vip
+		nonVip
+	}
+}

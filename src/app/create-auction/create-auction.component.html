@@ -1,6 +1,6 @@
 <div class="container">
 	<p>Phí của một lần tạo phiên đấu giá là 10,000 VNĐ</p>
-	<p>Tiền trong ví hiện tại là <label class="badge badge-primary">{{aumount || '0 VNĐ'}}</label></p>
+	<p>Tiền trong ví hiện tại là <label class="badge badge-primary">{{aumount || 0 | currency:'VND'}}</label></p>
 	<p *ngIf="!flag" class="badge badge-danger">Tiền trong tài khoản hiện không đủ, số dư ít nhất 10,000 VNĐ</p>
 </div>
 <div *ngIf="flag" class="container">
@@ -26,7 +26,7 @@
 			</div>
 		</div>
 		<div class="form-row">
-			<div class="form-group col-xs-3 col-sm-3 col-md-3 col-lg-3" style="padding-left: 0px;">
+			<div class="form-group col-xs-3 col-sm-3 col-md-3 col-lg-3 required" style="padding-left: 0px;">
 				<label class="control-label">Danh mục sản phẩm</label>
 				<select
 					[class.is-invalid]="productForm.get('productCategory').invalid&&productForm.get('productCategory').touched"
@@ -56,12 +56,12 @@
 					<label class="form-check-label">Chỉ thành viên VIP</label>
 				</div>
 
-				<label class="control-label">Đã hoạt động trên </label>
-				<input
+				<label style="visibility: hidden;" class="control-label">Đã hoạt động trên </label>
+				<input  style="visibility: hidden;"
 					[class.is-invalid]="productForm.get('auctionCondition').get('accountActiveDay').invalid&&productForm.get('auctionCondition').get('accountActiveDay').touched"
 					formControlName="accountActiveDay" type="number" min="1" class="form-control"
 					placeholder="Nhập số ngày">
-				<div class="invalid-feedback">
+				<div  style="visibility: hidden;" class="invalid-feedback">
 					Ngày hoạt động phải lớn hơn không hoặc để trống
 				</div>
 
@@ -111,8 +111,11 @@
 				<input [class.is-invalid]="productForm.get('floorPrice').invalid&&productForm.get('floorPrice').touched"
 					formControlName="floorPrice" type="number" class="form-control" placeholder="Không bắt buộc"
 					min="1">
-				<div class="invalid-feedback">
+				<div *ngIf="productForm.get('floorPrice').errors?.gt" class="invalid-feedback">
 					Giá sàn lớn hơn không hoặc để trống
+				</div>
+				<div *ngIf="productForm.get('floorPrice').errors?.max" class="invalid-feedback">
+					Giá sàn không được vượt quá 2 tỷ
 				</div>
 				<small class="form-text text-muted">Đây là giá tối thiểu để bắt đầu tham gia đặt giá</small>
 			</div>
@@ -133,14 +136,18 @@
 				<label class="control-label">Giá khoảng cách mỗi lần đặt</label>
 				<input [class.is-invalid]="productForm.get('stepPrice').invalid&&productForm.get('stepPrice').touched"
 					formControlName="stepPrice" type="number" class="form-control" placeholder="Không bắt buộc" min="1">
-				<div class="invalid-feedback">
+				<div *ngIf="productForm.get('stepPrice').errors?.gt" class="invalid-feedback">
 					Bước giá lớn hơn không hoặc để trống
+				</div>
+				<div *ngIf="productForm.get('stepPrice').errors?.max" class="invalid-feedback">
+					Bước giá không được vượt quá 2 tỷ
 				</div>
 				<small class="form-text text-muted">Đây là khoảng cách giá tối thiểu cho lần đặt trước và lần đặt
 					sau</small>
 			</div>
 		</div>
-		<div class="custom-file">
+		<p>Hình đại diện<span style="color: red;">*</span></p>
+		<div class="custom-file required">
 			<input [formControl]="avatarControl" type="file" accept="image/x-png,image/gif,image/jpeg"
 				[class.is-invalid]="productForm.get('avatar').invalid&&avatarControl.touched" class="custom-file-input"
 				id="validatedCustomFile" (change)="selectImage($event)">
@@ -151,6 +158,8 @@
 		</div>
 		<input formControlName="avatar" type="hidden" />
 		<br>
+		<br>
+		<p>Chú ý: Cần điền đủ các trường bắt buộc (<span style="color: red;">*</span>) để xác nhận phiếu đăng ký</p>
 		<button [disabled]="productForm.invalid" type="submit" class="btn btn-primary">Tạo phiên đấu giá</button>
 	</form>
 </div>

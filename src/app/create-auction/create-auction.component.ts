@@ -51,9 +51,9 @@ export class CreateAuctionComponent implements OnInit {
       startTime: ['', [Validators.required, ngValidators.minDate(currentDate)]],
       endTime: ['', [Validators.required, ngValidators.minDate(currentDate), ngValidators.maxDate(tenDayLater), this.endTimeValidate]],
       avatar: ['', Validators.required],
-      floorPrice: ['', ngValidators.gt(0)],
+      floorPrice: ['', [ngValidators.gt(0), ngValidators.max(2000000000)]],
       // ceilingPrice: ['', ngValidators.gt(0)],
-      stepPrice: ['', ngValidators.gt(0)],
+      stepPrice: ['', [ngValidators.gt(0), ngValidators.max(2000000000)]],
       auctionCondition: this.fb.group({
         vipAccount: [false],
         accountActiveDay: ['', ngValidators.gt(0)],
@@ -154,5 +154,8 @@ export class CreateAuctionComponent implements OnInit {
 
   }
 
-
+  abc(){
+    console.log(this.productForm);
+    
+  }
 }

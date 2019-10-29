@@ -199,6 +199,7 @@ export type Query = {
   auctionProduct?: Maybe<AuctionProduct>,
   auctionProducts?: Maybe<Array<Maybe<AuctionProduct>>>,
   auctionProductsExist?: Maybe<Array<Maybe<AuctionProduct>>>,
+  thongKe?: Maybe<ThongKe>,
 };
 
 
@@ -247,6 +248,12 @@ export type SubscriptionAuctionAddedArgs = {
   product?: Maybe<ProductInput>
 };
 
+export type ThongKe = {
+   __typename?: 'ThongKe',
+  vip?: Maybe<Scalars['Int']>,
+  nonVip?: Maybe<Scalars['Int']>,
+};
+
 
 export type User = {
    __typename?: 'User',
@@ -279,6 +286,9 @@ export type UserInput = {
   phoneNumber?: Maybe<Scalars['String']>,
   email?: Maybe<Scalars['String']>,
   role?: Maybe<Scalars['String']>,
+  createTime?: Maybe<Scalars['Date']>,
+  vipMember?: Maybe<Scalars['Boolean']>,
+  amount?: Maybe<Scalars['Int']>,
 };
 
 export type AddAuctionMutationVariables = {
@@ -450,6 +460,17 @@ export type GetAllRoleQuery = (
   )>>> }
 );
 
+export type ThongKeQueryVariables = {};
+
+
+export type ThongKeQuery = (
+  { __typename?: 'Query' }
+  & { thongKe: Maybe<(
+    { __typename?: 'ThongKe' }
+    & Pick<ThongKe, 'vip' | 'nonVip'>
+  )> }
+);
+
 export type GetUserByIdQueryVariables = {
   id: Scalars['ID']
 };
@@ -459,7 +480,7 @@ export type GetUserByIdQuery = (
   { __typename?: 'Query' }
   & { user: Maybe<(
     { __typename?: 'User' }
-    & Pick<User, 'id' | 'userName' | 'createTime' | 'amount' | 'firstName' | 'lastName' | 'address' | 'birthday' | 'phoneNumber' | 'email' | 'activeStatus' | 'role'>
+    & Pick<User, 'id' | 'userName' | 'createTime' | 'amount' | 'firstName' | 'lastName' | 'address' | 'birthday' | 'phoneNumber' | 'vipMember' | 'email' | 'activeStatus' | 'role'>
     & { products: Maybe<Array<Maybe<(
       { __typename?: 'AuctionProduct' }
       & Pick<AuctionProduct, 'ownerId' | 'createTime'>
@@ -803,6 +824,22 @@ export const GetAllRoleDocument = gql`
     document = GetAllRoleDocument;
     
   }
+export const ThongKeDocument = gql`
+    query thongKe {
+  thongKe {
+    vip
+    nonVip
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class ThongKeGQL extends Apollo.Query<ThongKeQuery, ThongKeQueryVariables> {
+    document = ThongKeDocument;
+    
+  }
 export const GetUserByIdDocument = gql`
     query getUserById($id: ID!) {
   user(id: $id) {
@@ -815,6 +852,7 @@ export const GetUserByIdDocument = gql`
     address
     birthday
     phoneNumber
+    vipMember
     email
     activeStatus
     role
