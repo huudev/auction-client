@@ -29,6 +29,7 @@ import { CreateAuctionComponent } from './create-auction/create-auction.componen
 import { CurrentAuctionComponent } from './current-auction/current-auction.component';
 import { MyAuctionComponent } from './my-auction/my-auction.component';
 import { ListProductComponent } from './list-product/list-product.component';
+import { UserInfomationComponent } from './user-infomation/user-infomation.component';
 
 @NgModule({
   declarations: [
@@ -46,6 +47,7 @@ import { ListProductComponent } from './list-product/list-product.component';
     CurrentAuctionComponent,
     MyAuctionComponent,
     ListProductComponent,
+    UserInfomationComponent,
   ],
   imports: [
     SharedModule,

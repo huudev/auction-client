@@ -44,7 +44,7 @@ export class CardUserComponent implements OnInit {
       address: ['', Validators.required],
       birthday: ['', [Validators.required, maxDate(date)]],
       phoneNumber: ['', [Validators.required, Validators.pattern('0[0-9\s.-]{9,13}')]],
-      email: ['', [Validators.required, Validators.pattern('^[a-z][a-z0-9_\.]+@[a-z0-9]{2,}(\.[a-z0-9]{2,4}){1,}$')]],
+      email: ['', [Validators.required, Validators.pattern('^[a-zA-Z][a-zA-Z0-9_\.]+@[a-z0-9]{2,}(\.[a-z0-9]{2,4}){1,}$')]],
       role: ['USERB', Validators.required]
     });
     if (!this.createUser) {
@@ -109,5 +109,5 @@ export class CardUserComponent implements OnInit {
       }
     });
   }
-  
+
 }
