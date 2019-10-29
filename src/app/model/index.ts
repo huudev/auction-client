@@ -47,7 +47,7 @@ export type AuctionConditionInput = {
 
 export type AuctionHistory = {
    __typename?: 'AuctionHistory',
-  time?: Maybe<Scalars['String']>,
+  time?: Maybe<Scalars['Date']>,
   price?: Maybe<Scalars['Int']>,
   userName?: Maybe<Scalars['String']>,
   userId?: Maybe<Scalars['String']>,
@@ -218,6 +218,12 @@ export type QueryAuctionProductArgs = {
   createTime: Scalars['Date']
 };
 
+
+export type QueryAuctionProductsArgs = {
+  ownerId?: Maybe<Scalars['String']>,
+  userId?: Maybe<Scalars['String']>
+};
+
 export type Response = {
    __typename?: 'Response',
   code: Scalars['String'],
@@ -259,6 +265,7 @@ export type User = {
   createTime?: Maybe<Scalars['Date']>,
   amount?: Maybe<Scalars['Int']>,
   role?: Maybe<Scalars['String']>,
+  products?: Maybe<Array<Maybe<AuctionProduct>>>,
 };
 
 export type UserInput = {
@@ -338,6 +345,32 @@ export type GetAllProductCategoryQuery = (
   & { productCategories: Maybe<Array<Maybe<(
     { __typename?: 'ProductCategory' }
     & Pick<ProductCategory, 'id' | 'name'>
+  )>>> }
+);
+
+export type GetAllProductsQueryVariables = {
+  ownerId?: Maybe<Scalars['String']>
+};
+
+
+export type GetAllProductsQuery = (
+  { __typename?: 'Query' }
+  & { auctionProducts: Maybe<Array<Maybe<(
+    { __typename?: 'AuctionProduct' }
+    & Pick<AuctionProduct, 'ownerId' | 'createTime' | 'productName' | 'startTime' | 'endTime' | 'avatar' | 'images' | 'currentPrice' | 'floorPrice' | 'ceilingPrice' | 'priceStep' | 'finalPrice' | 'winner' | 'description' | 'status'>
+    & { productCategory: Maybe<(
+      { __typename?: 'ProductCategory' }
+      & Pick<ProductCategory, 'id' | 'name'>
+    )>, auctionCondition: Maybe<(
+      { __typename?: 'AuctionCondition' }
+      & Pick<AuctionCondition, 'vipAccount' | 'accountActiveDay'>
+    )>, auctionType: Maybe<(
+      { __typename?: 'AuctionType' }
+      & Pick<AuctionType, 'id' | 'name'>
+    )>, owner: Maybe<(
+      { __typename?: 'User' }
+      & Pick<User, 'userName'>
+    )> }
   )>>> }
 );
 
@@ -427,6 +460,10 @@ export type GetUserByIdQuery = (
   & { user: Maybe<(
     { __typename?: 'User' }
     & Pick<User, 'id' | 'userName' | 'createTime' | 'amount' | 'firstName' | 'lastName' | 'address' | 'birthday' | 'phoneNumber' | 'email' | 'activeStatus' | 'role'>
+    & { products: Maybe<Array<Maybe<(
+      { __typename?: 'AuctionProduct' }
+      & Pick<AuctionProduct, 'ownerId' | 'createTime'>
+    )>>> }
   )> }
 );
 
@@ -480,7 +517,7 @@ export type SubscriptionAuctionSubscription = (
   { __typename?: 'Subscription' }
   & { auctionAdded: (
     { __typename?: 'AuctionProduct' }
-    & Pick<AuctionProduct, 'ownerId' | 'createTime'>
+    & Pick<AuctionProduct, 'ownerId' | 'createTime' | 'winner'>
     & { auctionHistory: Maybe<Array<Maybe<(
       { __typename?: 'AuctionHistory' }
       & Pick<AuctionHistory, 'time' | 'price' | 'userName' | 'userId'>
@@ -590,6 +627,50 @@ export const GetAllProductCategoryDocument = gql`
   })
   export class GetAllProductCategoryGQL extends Apollo.Query<GetAllProductCategoryQuery, GetAllProductCategoryQueryVariables> {
     document = GetAllProductCategoryDocument;
+    
+  }
+export const GetAllProductsDocument = gql`
+    query getAllProducts($ownerId: String) {
+  auctionProducts(ownerId: $ownerId) {
+    ownerId
+    createTime
+    productName
+    startTime
+    endTime
+    avatar
+    images
+    currentPrice
+    floorPrice
+    ceilingPrice
+    priceStep
+    finalPrice
+    winner
+    description
+    status
+    productCategory {
+      id
+      name
+    }
+    auctionCondition {
+      vipAccount
+      accountActiveDay
+    }
+    auctionType {
+      id
+      name
+    }
+    owner {
+      userName
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class GetAllProductsGQL extends Apollo.Query<GetAllProductsQuery, GetAllProductsQueryVariables> {
+    document = GetAllProductsDocument;
     
   }
 export const GetAllProductExistDocument = gql`
@@ -737,6 +818,10 @@ export const GetUserByIdDocument = gql`
     email
     activeStatus
     role
+    products {
+      ownerId
+      createTime
+    }
   }
 }
     `;
@@ -805,6 +890,7 @@ export const SubscriptionAuctionDocument = gql`
   auctionAdded(product: $product) {
     ownerId
     createTime
+    winner
     auctionHistory {
       time
       price

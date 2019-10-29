@@ -6,33 +6,4 @@
 		</div>
 	</div>
 </div>
-<div class="container">
-	<div class="row">
-		<div *ngFor="let product of products" class="col-md-3">
-			<div class="card col-md-12">
-				<img [src]="product.avatarUrl" class="card-img-top" alt="...">
-				<div class="card-body">
-					<h5 class="card-title">{{product.productName}}</h5>
-					<div [ngSwitch]="product.liveStatus">
-						<div *ngSwitchCase="1">
-							<span class="badge badge-success">Đang diễn ra</span>
-							<br>
-							<label>Còn lại <span>
-									{{ product.timer?.hour }}:{{ product.timer?.minute }}:{{product.timer?.second}}
-								</span> </label>
-						</div>
-						<div *ngSwitchCase="2">
-							<span class="badge badge-danger">Đã kết thúc</span>
-						</div>
-						<div *ngSwitchCase="0">
-							<span class="badge badge-warning">Sắp diễn ra</span>
-							<br>
-							<label>{{product.startTime | date:'dd/MM/yyyy hh:mm:ss'}}</label>
-						</div>
-					</div>
-					<a routerLink="auction-product/{{product.ownerId}}/{{product.createTime}}" class="btn btn-primary">Xem chi tiết</a>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
+<app-list-product [products]="products"></app-list-product>

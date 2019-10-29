@@ -24,9 +24,7 @@
 						<span>{{ user.userName }}</span>
 					</a>
 					<div ngbDropdownMenu class="dropdown-menu" aria-labelledby="navbarDropdown">
-						<a class="dropdown-item" routerLink="create-auction">Tạo phiên đấu giá</a>
-						<a class="dropdown-item" href="#">Nạp tiền</a>
-						<a class="dropdown-item" href="#">Another action</a>
+						<a *ngFor="let item of currentRole" class="dropdown-item" [routerLink]="item.route">{{item.name}}</a>
 						<div class="dropdown-divider"></div>
 						<a class="dropdown-item" (click)="auth.logout()">Đăng xuất</a>
 					</div>

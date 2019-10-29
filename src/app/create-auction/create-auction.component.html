@@ -1,4 +1,9 @@
 <div class="container">
+	<p>Phí của một lần tạo phiên đấu giá là 10,000 VNĐ</p>
+	<p>Tiền trong ví hiện tại là <label class="badge badge-primary">{{aumount || '0 VNĐ'}}</label></p>
+	<p *ngIf="!flag" class="badge badge-danger">Tiền trong tài khoản hiện không đủ, số dư ít nhất 10,000 VNĐ</p>
+</div>
+<div *ngIf="flag" class="container">
 	<h2 class="style top">Tạo phiên đấu giá sản phẩm</h2>
 	<form [formGroup]="productForm" (ngSubmit)="submitForm()">
 		<div class="form-group required">
@@ -37,7 +42,7 @@
 				<select
 					[class.is-invalid]="productForm.get('auctionType').invalid&&productForm.get('auctionType').touched"
 					formControlName="auctionType" class="form-control">
-					<option *ngFor="let type of auctionTypes" [value]="type.id" >{{ type.name }}</option>
+					<option *ngFor="let type of auctionTypes" [value]="type.id">{{ type.name }}</option>
 				</select>
 				<div class="invalid-feedback">
 					Chưa chọn hình thức đấu giá
@@ -54,7 +59,7 @@
 				<label class="control-label">Đã hoạt động trên </label>
 				<input
 					[class.is-invalid]="productForm.get('auctionCondition').get('accountActiveDay').invalid&&productForm.get('auctionCondition').get('accountActiveDay').touched"
-					formControlName="accountActiveDay" type="number"  min="1" class="form-control"
+					formControlName="accountActiveDay" type="number" min="1" class="form-control"
 					placeholder="Nhập số ngày">
 				<div class="invalid-feedback">
 					Ngày hoạt động phải lớn hơn không hoặc để trống
@@ -90,6 +95,9 @@
 				<div *ngIf="productForm.get('endTime').errors?.minDate" class="invalid-feedback">
 					Không thể chọn thời gian trước thời thời gian hiện tại
 				</div>
+				<div *ngIf="productForm.get('endTime').errors?.maxDate" class="invalid-feedback">
+					Thời gian kết thúc không được vượt hơn 10 ngày hiện tại
+				</div>
 				<div *ngIf="productForm.get('endTime').errors?.bad" class="invalid-feedback">
 					Thời gian kết thúc không thể trước thời gian bắt đầu
 				</div>
@@ -108,7 +116,7 @@
 				</div>
 				<small class="form-text text-muted">Đây là giá tối thiểu để bắt đầu tham gia đặt giá</small>
 			</div>
-			<div class="form-group col-xs-3 col-sm-3 col-md-3 col-lg-3 ">
+			<!-- <div class="form-group col-xs-3 col-sm-3 col-md-3 col-lg-3 ">
 				<label class="control-label">Giá trần</label>
 				<input
 					[class.is-invalid]="productForm.get('ceilingPrice').invalid&&productForm.get('ceilingPrice').touched"
@@ -120,7 +128,7 @@
 				<small class="form-text text-muted">Đây là giá cao nhất, nếu ai đặt giá này thì phiên đấu giá sẽ kết
 					thúc
 					ngay lập tức</small>
-			</div>
+			</div> -->
 			<div class="form-group col-xs-3 col-sm-3 col-md-3 col-lg-3">
 				<label class="control-label">Giá khoảng cách mỗi lần đặt</label>
 				<input [class.is-invalid]="productForm.get('stepPrice').invalid&&productForm.get('stepPrice').touched"
@@ -133,13 +141,16 @@
 			</div>
 		</div>
 		<div class="custom-file">
-			<input [formControl]="avatarControl" type="file" [class.is-invalid]="productForm.get('avatar').invalid&&avatarControl.touched" class="custom-file-input" id="validatedCustomFile" (change)="selectImage($event)">
-			<label class="custom-file-label" for="validatedCustomFile">Chọn hình đại diện</label>
+			<input [formControl]="avatarControl" type="file" accept="image/x-png,image/gif,image/jpeg"
+				[class.is-invalid]="productForm.get('avatar').invalid&&avatarControl.touched" class="custom-file-input"
+				id="validatedCustomFile" (change)="selectImage($event)">
+			<label class="custom-file-label"
+				for="validatedCustomFile">{{productForm.get('avatar').valid ? 'Đã chọn hình' : 'Chọn hình đại diện'}}</label>
 			<div class="invalid-feedback">Cần chọn hình</div>
-			
+
 		</div>
 		<input formControlName="avatar" type="hidden" />
 		<br>
-		<button [disabled]="productForm.invalid" type="submit" class="btn btn-primary" >Tạo phiên đấu giá</button>
+		<button [disabled]="productForm.invalid" type="submit" class="btn btn-primary">Tạo phiên đấu giá</button>
 	</form>
 </div>

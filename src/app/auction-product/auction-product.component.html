@@ -8,20 +8,24 @@
 		</div>
 		<div class="col-xs-7 col-sm-7 col-md-4 col-lg-4">
 			<h2>{{product.productName}}</h2>
-
-			<label>Loại hình đấu giá:</label><span class="label label-info">{{product.auctionType.name}}</span>
+			<p *ngIf="product.floorPrice">Giá sàn {{product.floorPrice}}</p>
+			<p *ngIf="product.priceStep">Bước giá {{product.priceStep}}</p>
+			<p>Loại hình đấu giá:<span class="badge badge-secondary">{{product.auctionType.name}}</span> </p>
+			<p *ngIf="product.auctionCondition?.vipAccount"><span class="badge badge-info">Yêu cầu vip</span> </p>
 			<br>
 			<div [ngSwitch]="product.liveStatus">
 				<div *ngSwitchCase="1">
 					<span class="badge badge-success">Đang diễn ra</span>
 					<br>
-					<label>Còn lại <span>
-							{{ product.timer?.hour }}:{{ product.timer?.minute }}:{{product.timer?.second}} </span>
+					<label *ngIf="product.timer">Còn lại
+						<span>{{ product.timer?.day ? product.timer?.day+' ngày ' : '' }}{{ product.timer?.hour }}:{{ product.timer?.minute }}:{{product.timer?.second}}
+						</span>
 					</label>
 					<ng-container *ngIf="(user$ | async)?.role != 'USERA' && (user$ | async)?.role != 'ADMIN'">
 						<form [formGroup]="auctionForm">
-							<input [class.is-invalid]="auctionForm.get('auctionPrice').invalid&&auctionForm.get('auctionPrice').touched"
-							 formControlName="auctionPrice" class="form-control" type="number" min="10000"
+							<input
+								[class.is-invalid]="auctionForm.get('auctionPrice').invalid&&auctionForm.get('auctionPrice').touched"
+								formControlName="auctionPrice" class="form-control" type="number" min="10000"
 								step="1000" />
 							<div class="invalid-feedback">
 								Giá tiền không hợp lệ
@@ -32,7 +36,12 @@
 					</ng-container>
 				</div>
 				<div *ngSwitchCase="2">
-					<span class="badge badge-danger">Đã kết thúc</span>
+					<p class="badge badge-danger">Đã kết thúc</p>
+					<br>
+					<ng-container *ngIf="product.winner">
+						Id người chiến thắng
+						<span class="badge badge-warning">{{product.winner}}</span>
+					</ng-container>
 				</div>
 				<div *ngSwitchCase="0">
 					<span class="badge badge-warning">Sắp diễn ra</span>
@@ -59,7 +68,8 @@
 			<!-- <label>Sản phẩm này bạn đang tham gia đấu giá</label> -->
 			<!-- <label>Giá đặt cao nhất của bạn là </label> <span>10.000.000đ</span> -->
 		</div>
-		<div class="col-xs-11 col-sm-11 col-md-4 col-lg-4">
+		<div *ngIf="product.auctionType.id=='277f6be0-6d08-4128-a3a7-e39629c541ce'&&auctionHistorys&&auctionHistorys.length>0"
+			class="col-xs-11 col-sm-11 col-md-4 col-lg-4">
 			<span class="label label-success">Bảng danh sách thông tin đấu giá</span>
 			<div class="table-responsive">
 				<table class="table table-bordered table-striped table-border">

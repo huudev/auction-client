@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl, ValidationErrors, AbstractControl } from '@angular/forms';
-import { GetAllProductCategoryGQL, AddProductGQL, ProductCategory, GetAllAuctionTypeGQL, AuctionType } from '../model';
+import { GetAllProductCategoryGQL, AddProductGQL, ProductCategory, GetAllAuctionTypeGQL, AuctionType, GetUserByIdGQL } from '../model';
 import * as ngValidators from '@ng-validators/ng-validators';
 import { HttpClient } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
+import { AuthService } from '../service/auth.service';
 
 @Component({
   selector: 'app-create-auction',
@@ -16,6 +17,8 @@ export class CreateAuctionComponent implements OnInit {
   categories: ProductCategory[];
   auctionTypes: AuctionType[];
   avatarControl: FormControl;
+  aumount: number;
+  flag: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -24,18 +27,32 @@ export class CreateAuctionComponent implements OnInit {
     private getAllCategories: GetAllProductCategoryGQL,
     private getAllAuctionType: GetAllAuctionTypeGQL,
     private addProductGQL: AddProductGQL,
-    private toastrService: ToastrService
+    private toastrService: ToastrService,
+    private getUserByIdGQL: GetUserByIdGQL,
+    private authService: AuthService
   ) { }
 
   ngOnInit() {
+    const user = this.authService.user$.value;
+    this.getUserByIdGQL.fetch({ id: user.id }, { fetchPolicy: 'network-only' }).subscribe(result => {
+      this.aumount = result.data.user.amount || 0;
+
+      if (!(this.aumount < 10000)) {
+        this.flag = true;
+      }
+    });
+
+    const currentDate = new Date();
+    const tenDayLater = new Date();
+    tenDayLater.setDate(tenDayLater.getDate() + 10);
     this.productForm = this.fb.group({
       productName: ['', Validators.required],
       description: ['', Validators.required],
-      startTime: ['', [Validators.required, ngValidators.minDate(new Date())]],
-      endTime: ['', [Validators.required, ngValidators.minDate(new Date()), this.endTimeValidate]],
+      startTime: ['', [Validators.required, ngValidators.minDate(currentDate)]],
+      endTime: ['', [Validators.required, ngValidators.minDate(currentDate), ngValidators.maxDate(tenDayLater), this.endTimeValidate]],
       avatar: ['', Validators.required],
       floorPrice: ['', ngValidators.gt(0)],
-      ceilingPrice: ['', ngValidators.gt(0)],
+      // ceilingPrice: ['', ngValidators.gt(0)],
       stepPrice: ['', ngValidators.gt(0)],
       auctionCondition: this.fb.group({
         vipAccount: [false],
@@ -43,9 +60,11 @@ export class CreateAuctionComponent implements OnInit {
       }),
       auctionType: ['', Validators.required],
       productCategory: ['', Validators.required]
-    }, {
-      validators: this.formValidate
-    });
+    },
+      //  {
+      //   validators: this.formValidate
+      // }
+    );
 
     this.avatarControl = this.fb.control(['']);
 
@@ -64,7 +83,7 @@ export class CreateAuctionComponent implements OnInit {
     if (parent) {
       const endTime = new Date(endTimeControl.value);
       const startTime = new Date(parent.get('startTime').value);
-      if (endTime.getTime() < startTime.getTime()) {
+      if (!isNaN(startTime.getTime()) && endTime.getTime() < startTime.getTime()) {
         return { bad: true };
       }
     }
@@ -121,8 +140,12 @@ export class CreateAuctionComponent implements OnInit {
 
     this.addProductGQL.mutate({ product }).subscribe(
       res => {
-        this.toastrService.success('Đăng sản phẩm đấu giá thành công');
-        this.router.navigateByUrl('/');
+        if (res.data.addProduct.success) {
+          this.toastrService.success('Đăng sản phẩm đấu giá thành công');
+          this.router.navigateByUrl('/');
+        } else {
+          this.toastrService.error(res.data.addProduct.message);
+        }
       },
       err => {
         this.toastrService.error('Có lỗi xảy ra');

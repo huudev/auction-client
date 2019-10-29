@@ -16,7 +16,7 @@ import { CardUserComponent } from './card-user/card-user.component';
     FormsModule,
     ReactiveFormsModule,
     ToastrModule.forRoot({
-      timeOut: 3000,
+      timeOut: 5000,
       positionClass: 'toast-bottom-right',
       preventDuplicates: true,
     })
