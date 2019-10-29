@@ -34,12 +34,11 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
-    if (this.loginForm.invalid) { return; }
 
     this.subscription = this.logingGQL.fetch({ ...this.loginForm.value }, { fetchPolicy: 'network-only' }).subscribe(result => {
       const data = result.data.login;
       if (!data.token) {
-        this.toastrService.error('User name or password is invalid');
+        this.toastrService.error('Tài khoản hoặc mật khẩu không đúng');
       } else {
         this.authService.user$.next(this.jwtHelper.decodeToken(result.data.login.token));
         this.authService.storeToken(data);

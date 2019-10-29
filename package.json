@@ -35,6 +35,7 @@
     "graphql": "^14.5.8",
     "graphql-tag": "^2.10.1",
     "jquery": "^3.4.1",
+    "ng2-google-charts": "^4.0.0",
     "ngx-custom-validators": "^8.0.0",
     "ngx-toastr": "^11.1.2",
     "popper": "^1.0.1",

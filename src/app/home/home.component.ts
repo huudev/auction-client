@@ -19,7 +19,7 @@ export class HomeComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.getAllProductExsist.fetch().subscribe(
+    this.getAllProductExsist.fetch({}, { fetchPolicy: 'network-only' }).subscribe(
       result => {
         this.products = result.data.auctionProductsExist.map(product => {
           product['avatarUrl'] = environment.server_url + 'uploads/' + product.avatar;

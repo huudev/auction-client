@@ -1,5 +1,5 @@
-<nav class="navbar navbar-expand-lg navbar-light header_btm">
-	<a class="navbar-brand" routerLink="/">Đấu giá trực tuyến Aditii</a>
+<nav class="navbar navbar-expand-lg navbar-dark header_btm">
+	<!-- <a class="navbar-brand" routerLink="/">Đấu giá trực tuyến Aditii</a> -->
 	<button class="navbar-toggler" (click)="tooggleMenu()" type="button" data-toggle="collapse"
 		data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
 		aria-label="Toggle navigation">
@@ -7,38 +7,44 @@
 	</button>
 
 	<div [ngbCollapse]="isCollapse" class="collapse navbar-collapse" id="navbarSupportedContent">
-		<ul class="navbar-nav w-100 justify-content-center mr-auto">
+		<ul class="navbar-nav w-100 mr-auto">
 			<li class="nav-item active">
 				<a class="nav-link" routerLink="/">Trang chủ</a>
 			</li>
-			<li class="nav-item">
+			<!-- <li class="nav-item">
 				<a class="nav-link" routerLink="/">Phiên đấu giá chung</a>
-			</li>
+			</li> -->
 			<!-- <li class="nav-item">
 				<a class="nav-link" href="#">Phiên đấu giá của tôi</a>
 			</li> -->
 			<li class="nav-item dropdown" ngbDropdown>
-				<ng-container *ngIf="(auth.user$ | async) as user ; else nonUser">
+				<ng-container *ngIf="(auth.user$ | async) as user">
 					<a class="nav-link dropdown-toggle" id="navbarDropdown" ngbDropdownToggle role="button"
 						data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 						<span>{{ user.userName }}</span>
 					</a>
 					<div ngbDropdownMenu class="dropdown-menu" aria-labelledby="navbarDropdown">
-						<a *ngFor="let item of currentRole" class="dropdown-item" [routerLink]="item.route">{{item.name}}</a>
-						<div class="dropdown-divider"></div>
-						<a class="dropdown-item" (click)="auth.logout()">Đăng xuất</a>
+						<a *ngFor="let item of currentRole" class="dropdown-item"
+							[routerLink]="item.route">{{item.name}}</a>
+						<a *ngIf="user.role=='USERB'&&!user.vipMember" class="dropdown-item" (click)="upgradeVipmember()" >Nâng cấp vip (Chỉ 15,000VNĐ)</a>
 					</div>
 				</ng-container>
-				<ng-template #nonUser>
-					<a class="nav-link dropdown-toggle" id="navbarDropdown" ngbDropdownToggle role="button"
-						data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-						<span>Tài khoản</span>
-					</a>
-					<div ngbDropdownMenu class="dropdown-menu" aria-labelledby="navbarDropdown">
-						<a class="dropdown-item" routerLink="/login">Đăng nhập</a>
-					</div>
-				</ng-template>
 			</li>
 		</ul>
+		<ul class="nav navbar-nav justify-content-end w-100">
+			<ng-container *ngIf="!(auth.user$ | async) as user; else nonUser">
+				<li class="nav-item">
+					<a class="nav-link" routerLink="/login">Đăng nhập</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" routerLink="/sign-up">Đăng ký</a>
+				</li>
+			</ng-container>
+		</ul>
+		<ng-template #nonUser>
+			<li class="nav-item">
+				<a class="nav-link" (click)="auth.logout()">Đăng xuất</a>
+			</li>
+		</ng-template>
 	</div>
 </nav>

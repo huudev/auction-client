@@ -9,6 +9,7 @@ query getUserById($id: ID!){
     address
     birthday
     phoneNumber
+    vipMember
     email
     activeStatus
     role
