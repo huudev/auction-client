@@ -1,4 +1,7 @@
 <form [formGroup]="userForm" (ngSubmit)="submitForm()">
+	
+	<button (click)="abc()" type="button" class="btn btn-default">bbb</button>
+	
 	<div *ngIf="enableIdInput" class="form-group row">
 		<label for="inputId" class="col-sm-2 col-form-label">ID</label>
 		<div class="col-sm-10">
@@ -8,7 +11,7 @@
 			<div class="invalid-feedback">
 				ID không tồn tại
 			</div>
-		</div>
+		</div> 
 
 	</div>
 	<div class="form-group row">
@@ -17,8 +20,11 @@
 			<input formControlName="userName"
 				[class.is-invalid]="userForm.get('userName').invalid&&userForm.get('userName').touched"
 				class="form-control" id="inputUsername" placeholder="Tên đăng nhập">
-			<div class="invalid-feedback">
-				Tên đăng nhập rỗng
+			<div *ngIf="userForm.get('userName').errors?.required" class="invalid-feedback">
+				Tên đăng nhập là bắt buộc
+			</div>
+			<div *ngIf="userForm.get('userName').errors?.pattern" class="invalid-feedback">
+				Username có từ 4 đến 21 ký tự và không có ký tự đặc biệt
 			</div>
 		</div>
 
@@ -29,19 +35,25 @@
 			<input formControlName="password"
 				[class.is-invalid]="userForm.get('password').invalid&&userForm.get('password').touched" type="password"
 				class="form-control" id="inputPassword" placeholder="Password">
-			<div class="invalid-feedback">
-				Mật khẩu rỗng
+			<div *ngIf="userForm.get('password').errors?.required" class="invalid-feedback">
+				Mật khẩu là bắt buộc
+			</div>
+			<div *ngIf="userForm.get('password').errors?.pattern" class="invalid-feedback">
+				Mật khẩu phải có ít nhất 8 ký tự
 			</div>
 		</div>
 	</div>
 	<div class="form-group row">
-		<label for="inputLastName" class="col-sm-2 col-form-label">Họ</label>
+		<label for="inputLastName" class="col-sm-2 col-form-label">Họ và tên lót</label>
 		<div class="col-sm-10">
 			<input formControlName="lastName"
 				[class.is-invalid]="userForm.get('lastName').invalid&&userForm.get('lastName').touched"
 				class="form-control" id="inputLastName" placeholder="Họ">
-			<div class="invalid-feedback">
-				Họ rỗng
+				<div *ngIf="userForm.get('lastName').errors?.required" class="invalid-feedback">
+				Họ là bắt buộc
+			</div>
+			<div *ngIf="userForm.get('lastName').errors?.pattern" class="invalid-feedback">
+				Họ phải chữ
 			</div>
 		</div>
 	</div>
@@ -52,9 +64,12 @@
 			<input formControlName="firstName"
 				[class.is-invalid]="userForm.get('firstName').invalid&&userForm.get('firstName').touched"
 				class="form-control" id="inputFirstName" placeholder="Tên">
-			<div class="invalid-feedback">
-				Tên rỗng
-			</div>
+				<div *ngIf="userForm.get('firstName').errors?.required" class="invalid-feedback">
+					Tên là bắt buộc
+				</div>
+				<div *ngIf="userForm.get('firstName').errors?.pattern" class="invalid-feedback">
+					Tên phải chữ
+				</div>
 		</div>
 	</div>
 
@@ -64,9 +79,9 @@
 			<textarea formControlName="address"
 				[class.is-invalid]="userForm.get('address').invalid&&userForm.get('address').touched"
 				class="form-control" id="inputAddress" placeholder="Địa chỉ"></textarea>
-			<div class="invalid-feedback">
-				Tên rỗng
-			</div>
+				<div *ngIf="userForm.get('address').errors?.required" class="invalid-feedback">
+					Địa chỉ là bắt buộc
+				</div>				
 		</div>
 	</div>
 
@@ -76,9 +91,12 @@
 			<input formControlName="birthday"
 				[class.is-invalid]="userForm.get('birthday').invalid&&userForm.get('birthday').touched" type="date"
 				class="form-control" id="inputBirthday" placeholder="Ngày sinh">
-			<div class="invalid-feedback">
-				Ngày sinh rỗng
-			</div>
+				<div *ngIf="userForm.get('birthday').errors?.required" class="invalid-feedback">
+					Ngày sinh là bắt buộc
+				</div>
+				<div *ngIf="userForm.get('birthday').errors?.pattern" class="invalid-feedback">
+					Ngày sinh không hợp lệ
+				</div>
 		</div>
 	</div>
 
@@ -88,9 +106,12 @@
 			<input formControlName="phoneNumber"
 				[class.is-invalid]="userForm.get('phoneNumber').invalid&&userForm.get('phoneNumber').touched"
 				class="form-control" id="inputPhoneNumber" placeholder="Số điện thoại">
-			<div class="invalid-feedback">
-				Số điện thoại rỗng
-			</div>
+				<div *ngIf="userForm.get('phoneNumber').errors?.required" class="invalid-feedback">
+					Số điện thoại là bắt buộc
+				</div>
+				<div *ngIf="userForm.get('phoneNumber').errors?.pattern" class="invalid-feedback">
+					Số điện thoại không hợp lệ
+				</div>
 		</div>
 	</div>
 
@@ -100,20 +121,23 @@
 			<input formControlName="email"
 				[class.is-invalid]="userForm.get('email').invalid&&userForm.get('email').touched" class="form-control"
 				id="inputEmail" placeholder="Email">
-			<div class="invalid-feedback">
-				Email rỗng
-			</div>
+				<div *ngIf="userForm.get('email').errors?.required" class="invalid-feedback">
+					Email là bắt buộc
+				</div>
+				<div *ngIf="userForm.get('email').errors?.pattern" class="invalid-feedback">
+					Email không hợp lệ
+				</div>
 		</div>
 	</div>
 
 	<fieldset class="form-group">
 		<div class="row">
-			<legend class="col-form-label col-sm-2 pt-0">Loại</legend>
+			<legend class="col-form-label col-sm-2 pt-0">Loại tài khoản</legend>
 			<div class="col-sm-10">
 				<div class="form-check">
 					<input class="form-check-input" type="radio" formControlName="role" id="roleA" value="USERA">
 					<label class="form-check-label" for="roleA">
-						Người đăng bán
+						Người đăng sản phẩm đấu giá
 					</label>
 				</div>
 				<div class="form-check">
@@ -123,7 +147,7 @@
 					</label>
 				</div>
 				<div class="invalid-feedback">
-					Email rỗng
+					Vui lòng chọn loại tài khoản cần đăng ký 
 				</div>
 			</div>
 		</div>
