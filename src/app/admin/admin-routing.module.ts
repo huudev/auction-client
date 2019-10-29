@@ -6,11 +6,12 @@ import { AccountComponent } from './account/account.component';
 import { LayoutComponent } from './layout/layout.component';
 import { RechargeComponent } from './recharge/recharge.component';
 import { UserComponent } from './user/user.component';
+import { AuthAdminGuardService } from '../service/auth-admin-guard.service';
 
 
 export const routes: Routes = [
   {
-    path: '', component: LayoutComponent, children: [
+    path: '', component: LayoutComponent, canActivate: [AuthAdminGuardService], children: [
       {
         path: '', component: DashboardComponent, pathMatch: 'full'
       },

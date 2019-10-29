@@ -6,20 +6,4 @@
 		</div>
 	</div>
 </div>
-<div class="container">
-	<div class="row">
-		<div class="col-md-3">
-			<div class="card col-md-12">
-				<img src="assets/images/pic1.jpg" class="card-img-top" alt="...">
-				<div class="card-body">
-					<h5 class="card-title">Giày</h5>
-					<div>
-						<span class="badge badge-success">Đang diễn ra</span><br>
-						<label>Còn lại <span> 10:20:33</span> </label>
-					</div>
-					<a routerLink="auction-product/:ownerId/:createTime" class="btn btn-primary">Xem chi tiết</a>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
+<app-list-product [products]="products"></app-list-product>

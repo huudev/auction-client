@@ -26,6 +26,9 @@ import { SignUpComponent } from './sign-up/sign-up.component';
 import { HeaderComponent } from './header/header.component';
 import { CarouselComponent } from './carousel/carousel.component';
 import { CreateAuctionComponent } from './create-auction/create-auction.component';
+import { CurrentAuctionComponent } from './current-auction/current-auction.component';
+import { MyAuctionComponent } from './my-auction/my-auction.component';
+import { ListProductComponent } from './list-product/list-product.component';
 
 @NgModule({
   declarations: [
@@ -40,6 +43,9 @@ import { CreateAuctionComponent } from './create-auction/create-auction.componen
     HeaderComponent,
     CarouselComponent,
     CreateAuctionComponent,
+    CurrentAuctionComponent,
+    MyAuctionComponent,
+    ListProductComponent,
   ],
   imports: [
     SharedModule,

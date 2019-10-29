@@ -12,5 +12,9 @@ query getUserById($id: ID!){
     email
     activeStatus
     role
+    products {
+      ownerId
+      createTime
+    }
   }
 }

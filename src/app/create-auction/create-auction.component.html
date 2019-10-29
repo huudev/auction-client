@@ -1,58 +1,106 @@
 <div class="container">
+	<p>Phí của một lần tạo phiên đấu giá là 10,000 VNĐ</p>
+	<p>Tiền trong ví hiện tại là <label class="badge badge-primary">{{aumount || '0 VNĐ'}}</label></p>
+	<p *ngIf="!flag" class="badge badge-danger">Tiền trong tài khoản hiện không đủ, số dư ít nhất 10,000 VNĐ</p>
+</div>
+<div *ngIf="flag" class="container">
 	<h2 class="style top">Tạo phiên đấu giá sản phẩm</h2>
 	<form [formGroup]="productForm" (ngSubmit)="submitForm()">
 		<div class="form-group required">
 			<label class="control-label">Tên sản phẩm</label>
-			<input formControlName="productName" type="text" class="form-control"
+			<input [class.is-invalid]="productForm.get('productName').invalid&&productForm.get('productName').touched"
+				formControlName="productName" type="text" class="form-control"
 				placeholder="Nhập tên sản phẩm đăng đấu giá" />
+			<div class="invalid-feedback">
+				Tên sản phẩm bị rỗng
+			</div>
 		</div>
 		<div class="form-group required">
 			<label class="control-label">Mô tả sản phẩm</label>
-			<textarea formControlName="description" type="textarea" class="form-control"
+			<textarea
+				[class.is-invalid]="productForm.get('description').invalid&&productForm.get('description').touched"
+				formControlName="description" type="textarea" class="form-control"
 				placeholder="Điền thông tin mô tả về sản phảm"></textarea>
+			<div class="invalid-feedback">
+				Mô tả sản phẩm
+			</div>
 		</div>
 		<div class="form-row">
 			<div class="form-group col-xs-3 col-sm-3 col-md-3 col-lg-3" style="padding-left: 0px;">
 				<label class="control-label">Danh mục sản phẩm</label>
-				<select formControlName="productCategory" class="form-control">
-					<option selected>Điện tử</option>
-					<option>Làm đẹp</option>
+				<select
+					[class.is-invalid]="productForm.get('productCategory').invalid&&productForm.get('productCategory').touched"
+					formControlName="productCategory" class="form-control">
+					<option *ngFor="let category of categories" [value]="category.id">{{ category.name }}</option>
 				</select>
+				<div class="invalid-feedback">
+					Chưa chọn danh mục sản phẩm
+				</div>
 			</div>
 			<div class="form-group col-xs-3 col-sm-3 col-md-3 col-lg-3 required">
 				<label class="control-label">Hình thức đấu giá</label>
-				<select formControlName="auctionType" class="form-control">
-					<option selected>Công khai</option>
-					<option>Ẩn</option>
+				<select
+					[class.is-invalid]="productForm.get('auctionType').invalid&&productForm.get('auctionType').touched"
+					formControlName="auctionType" class="form-control">
+					<option *ngFor="let type of auctionTypes" [value]="type.id">{{ type.name }}</option>
 				</select>
+				<div class="invalid-feedback">
+					Chưa chọn hình thức đấu giá
+				</div>
 			</div>
-			<div formGroupName="auctionCondition" class="form-group col-xs-4 col-sm-4 col-md-4 col-lg-4 required ">
+			<div [class.is-invalid]="productForm.get('auctionCondition').invalid&&productForm.get('auctionCondition').touched"
+				formGroupName="auctionCondition" class="form-group col-xs-4 col-sm-4 col-md-4 col-lg-4">
 				<label class="control-label">Điều kiện tham gia đấu giá</label>
 				<div class="form-check">
 					<input formControlName="vipAccount" type="checkbox" class="form-check-input">
 					<label class="form-check-label">Chỉ thành viên VIP</label>
 				</div>
-				<div class="form-check">
-					<!-- <input type="checkbox" class="form-check-input"> -->
-					<label class="form-check-label">Đã hoạt động trên
-						<input formControlName="accountActiveDay" type="number" style="width: 30%;"
-							placeholder="Nhập số ngày">Ngày
-					</label>
+
+				<label class="control-label">Đã hoạt động trên </label>
+				<input
+					[class.is-invalid]="productForm.get('auctionCondition').get('accountActiveDay').invalid&&productForm.get('auctionCondition').get('accountActiveDay').touched"
+					formControlName="accountActiveDay" type="number" min="1" class="form-control"
+					placeholder="Nhập số ngày">
+				<div class="invalid-feedback">
+					Ngày hoạt động phải lớn hơn không hoặc để trống
 				</div>
+
+
 			</div>
 		</div>
 		<div class="form-row">
 			<div class="form-group col-xs-5 col-sm-5 col-md-5 col-lg-5 required" style="padding-left: 0px;">
 				<label class="control-label">Thời gian bắt đầu</label>
-				<input formControlName="startTime" type="datetime-local" step="1" class="form-control" required
+				<input [class.is-invalid]="productForm.get('startTime').invalid&&productForm.get('startTime').touched"
+					formControlName="startTime" type="datetime-local" step="1" class="form-control"
 					placeholder="Chọn thời gian bắt đầu">
+
+				<div *ngIf="productForm.get('startTime').errors?.required" class="invalid-feedback">
+					Vui lòng điền đầy đủ thời gian bắt đầu
+				</div>
+				<div *ngIf="productForm.get('startTime').errors?.minDate" class="invalid-feedback">
+					Không thể chọn thời gian trước thời thời gian hiện tại
+				</div>
 				<small class="form-text text-muted">Thời gian này hệ thống sẽ tự động mở phiên đấu giá của sản phẩm
 					này</small>
 			</div>
 			<div class="form-group col-xs-5 col-sm-5 col-md-5 col-lg-5 required">
 				<label class="control-label">Thời gian kết thúc</label>
-				<input formControlName="endTime" type="datetime-local" step="1" class="form-control" required
+				<input [class.is-invalid]="productForm.get('endTime').invalid&&productForm.get('endTime').touched"
+					formControlName="endTime" type="datetime-local" step="1" class="form-control" required
 					placeholder="Ngày kết thúc đấu giá">
+				<div *ngIf="productForm.get('endTime').errors?.required" class="invalid-feedback">
+					Vui lòng điền đầy đủ thời gian kết thúc
+				</div>
+				<div *ngIf="productForm.get('endTime').errors?.minDate" class="invalid-feedback">
+					Không thể chọn thời gian trước thời thời gian hiện tại
+				</div>
+				<div *ngIf="productForm.get('endTime').errors?.maxDate" class="invalid-feedback">
+					Thời gian kết thúc không được vượt hơn 10 ngày hiện tại
+				</div>
+				<div *ngIf="productForm.get('endTime').errors?.bad" class="invalid-feedback">
+					Thời gian kết thúc không thể trước thời gian bắt đầu
+				</div>
 				<small class="form-text text-muted">Hệ thống sẽ đóng phiên đấu giá sau thời gian này</small>
 			</div>
 		</div>
@@ -60,29 +108,49 @@
 		<div class="form-row">
 			<div class="form-group col-xs-3 col-sm-3 col-md-3 col-lg-3" style="padding-left: 0px;">
 				<label class="control-label">Giá sàn</label>
-				<input formControlName="floorPrice" type="number" class="form-control" placeholder="Không bắt buộc">
+				<input [class.is-invalid]="productForm.get('floorPrice').invalid&&productForm.get('floorPrice').touched"
+					formControlName="floorPrice" type="number" class="form-control" placeholder="Không bắt buộc"
+					min="1">
+				<div class="invalid-feedback">
+					Giá sàn lớn hơn không hoặc để trống
+				</div>
 				<small class="form-text text-muted">Đây là giá tối thiểu để bắt đầu tham gia đặt giá</small>
 			</div>
-			<div class="form-group col-xs-3 col-sm-3 col-md-3 col-lg-3 ">
+			<!-- <div class="form-group col-xs-3 col-sm-3 col-md-3 col-lg-3 ">
 				<label class="control-label">Giá trần</label>
-				<input formControlName="ceilingPrice" type="number" class="form-control" placeholder="Không bắt buộc">
+				<input
+					[class.is-invalid]="productForm.get('ceilingPrice').invalid&&productForm.get('ceilingPrice').touched"
+					formControlName="ceilingPrice" type="number" class="form-control" placeholder="Không bắt buộc"
+					min="1">
+				<div class="invalid-feedback">
+					Giá trần lớn hơn không hoặc để trống
+				</div>
 				<small class="form-text text-muted">Đây là giá cao nhất, nếu ai đặt giá này thì phiên đấu giá sẽ kết
 					thúc
 					ngay lập tức</small>
-			</div>
+			</div> -->
 			<div class="form-group col-xs-3 col-sm-3 col-md-3 col-lg-3">
 				<label class="control-label">Giá khoảng cách mỗi lần đặt</label>
-				<input formControlName="stepPrice" type="number" class="form-control" placeholder="Không bắt buộc">
+				<input [class.is-invalid]="productForm.get('stepPrice').invalid&&productForm.get('stepPrice').touched"
+					formControlName="stepPrice" type="number" class="form-control" placeholder="Không bắt buộc" min="1">
+				<div class="invalid-feedback">
+					Bước giá lớn hơn không hoặc để trống
+				</div>
 				<small class="form-text text-muted">Đây là khoảng cách giá tối thiểu cho lần đặt trước và lần đặt
 					sau</small>
 			</div>
 		</div>
 		<div class="custom-file">
-			<input type="file" class="custom-file-input" id="validatedCustomFile" required>
-			<label class="custom-file-label" for="validatedCustomFile">Chọn hình đại diện</label>
-			<div class="invalid-feedback">Example invalid custom file feedback</div>
+			<input [formControl]="avatarControl" type="file" accept="image/x-png,image/gif,image/jpeg"
+				[class.is-invalid]="productForm.get('avatar').invalid&&avatarControl.touched" class="custom-file-input"
+				id="validatedCustomFile" (change)="selectImage($event)">
+			<label class="custom-file-label"
+				for="validatedCustomFile">{{productForm.get('avatar').valid ? 'Đã chọn hình' : 'Chọn hình đại diện'}}</label>
+			<div class="invalid-feedback">Cần chọn hình</div>
+
 		</div>
-		<button type="submit" class="btn btn-primary">Tạo phiên đấu giá</button>
-		<button type="reset" class="btn btn-danger">Hủy</button>
+		<input formControlName="avatar" type="hidden" />
+		<br>
+		<button [disabled]="productForm.invalid" type="submit" class="btn btn-primary">Tạo phiên đấu giá</button>
 	</form>
 </div>

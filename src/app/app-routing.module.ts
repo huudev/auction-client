@@ -7,6 +7,9 @@ import { NotFoundComponent } from './shared/not-found/not-found.component';
 import { LoginComponent } from './login/login.component';
 import { SignUpComponent } from './sign-up/sign-up.component';
 import { CreateAuctionComponent } from './create-auction/create-auction.component';
+import { AuthAdminGuardService } from './service/auth-admin-guard.service';
+import { CurrentAuctionComponent } from './current-auction/current-auction.component';
+import { MyAuctionComponent } from './my-auction/my-auction.component';
 
 const routes: Routes = [
   {
@@ -19,14 +22,20 @@ const routes: Routes = [
       },
       {
         path: 'create-auction', component: CreateAuctionComponent
+      },
+      {
+        path: 'current-auction', component: CurrentAuctionComponent
+      },
+      {
+        path: 'my-auction', component: MyAuctionComponent
+      },
+      {
+        path: 'login', component: LoginComponent
+      },
+      {
+        path: 'sign-up', component: SignUpComponent
       }
     ]
-  },
-  {
-    path: 'login', component: LoginComponent
-  },
-  {
-    path: 'sign-up', component: SignUpComponent
   },
   {
     path: 'admin', loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule)

@@ -41,5 +41,8 @@ export class AuthService {
 
   logout() {
     this.route.navigateByUrl('/');
+    this.user$.next(null);
+    localStorage.removeItem('access_token');
+    localStorage.removeItem('refresh_token');
   }
 }

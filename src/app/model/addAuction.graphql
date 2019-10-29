@@ -1,0 +1,7 @@
+mutation addAuction($ownerId: String!,$createTime: Date!,$price: Int!) {
+	auction(ownerId: $ownerId,createTime: $createTime,price: $price){
+		code
+		message
+		success
+	}
+}

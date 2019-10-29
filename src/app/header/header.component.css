@@ -1,5 +1,5 @@
 .header{
-	padding: 2%;
+	padding: 1%;
 }
 
 .logo{
@@ -9,6 +9,9 @@
 .h_icon{
 	float: right;
 	width: 10.777%;
+	background: url('/assets/images/wine-auction-inside.png') center;
+	background-size: cover;
+	height: 100px;
 }
 
 .icon1:before,.icon1:after {
@@ -126,7 +129,7 @@
 }
 
 .c1{
-	background: url('/assets/images/icon/avataricon.png');
+	background: url('/assets/images/wine-auction-inside.png') no-repeat;
 	width: 46px;
 	height: 46px;
 	/* display: inline-block; */

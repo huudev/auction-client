@@ -1,1 +1,119 @@
-<p>auction-product works!</p>
+<div *ngIf="product" class="container-fluid ">
+	<div class="row">
+
+		<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+
+			<img [src]="product?.avatarUrl" class="img-fluid" alt="Hình sản phẩm">
+
+		</div>
+		<div class="col-xs-7 col-sm-7 col-md-4 col-lg-4">
+			<h2>{{product.productName}}</h2>
+			<p *ngIf="product.floorPrice">Giá sàn {{product.floorPrice}}</p>
+			<p *ngIf="product.priceStep">Bước giá {{product.priceStep}}</p>
+			<p>Loại hình đấu giá:<span class="badge badge-secondary">{{product.auctionType.name}}</span> </p>
+			<p *ngIf="product.auctionCondition?.vipAccount"><span class="badge badge-info">Yêu cầu vip</span> </p>
+			<br>
+			<div [ngSwitch]="product.liveStatus">
+				<div *ngSwitchCase="1">
+					<span class="badge badge-success">Đang diễn ra</span>
+					<br>
+					<label *ngIf="product.timer">Còn lại
+						<span>{{ product.timer?.day ? product.timer?.day+' ngày ' : '' }}{{ product.timer?.hour }}:{{ product.timer?.minute }}:{{product.timer?.second}}
+						</span>
+					</label>
+					<ng-container *ngIf="(user$ | async)?.role != 'USERA' && (user$ | async)?.role != 'ADMIN'">
+						<form [formGroup]="auctionForm">
+							<input
+								[class.is-invalid]="auctionForm.get('auctionPrice').invalid&&auctionForm.get('auctionPrice').touched"
+								formControlName="auctionPrice" class="form-control" type="number" min="10000"
+								step="1000" />
+							<div class="invalid-feedback">
+								Giá tiền không hợp lệ
+							</div>
+							<button [disabled]="auctionForm.invalid" (click)="auction()" type="button"
+								class="btn btn-success">Đặt đấu giá</button>
+						</form>
+					</ng-container>
+				</div>
+				<div *ngSwitchCase="2">
+					<p class="badge badge-danger">Đã kết thúc</p>
+					<br>
+					<ng-container *ngIf="product.winner">
+						Id người chiến thắng
+						<span class="badge badge-warning">{{product.winner}}</span>
+					</ng-container>
+				</div>
+				<div *ngSwitchCase="0">
+					<span class="badge badge-warning">Sắp diễn ra</span>
+					<br>
+					<label>{{product.startTime | date:'dd/MM/yyyy hh:mm:ss'}}</label>
+				</div>
+			</div>
+
+			<!-- <div class="progress">
+				<div class="progress-bar progress-bar-danger progress-bar-striped" role="progressbar"
+					style="width: 50%;">
+					<span class="sr-only"> 01:20:21 </span>
+				</div>
+			</div> -->
+
+			<!-- <h4>
+				<label>Giá được đặt cao nhất của sản phẩm hiện tại:
+					<span style="color:red">10.000.000đ</span>
+				</label>
+
+			</h4> -->
+
+			<!-- <br> -->
+			<!-- <label>Sản phẩm này bạn đang tham gia đấu giá</label> -->
+			<!-- <label>Giá đặt cao nhất của bạn là </label> <span>10.000.000đ</span> -->
+		</div>
+		<div *ngIf="product.auctionType.id=='277f6be0-6d08-4128-a3a7-e39629c541ce'&&auctionHistorys&&auctionHistorys.length>0"
+			class="col-xs-11 col-sm-11 col-md-4 col-lg-4">
+			<span class="label label-success">Bảng danh sách thông tin đấu giá</span>
+			<div class="table-responsive">
+				<table class="table table-bordered table-striped table-border">
+					<thead>
+						<tr>
+							<th>STT</th>
+							<th>ID tham gia</th>
+							<th>Số tiền (VNĐ)</th>
+							<th>Thời gian</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr *ngFor="let history of auctionHistorys.reverse();let i=index">
+							<td>{{i}}</td>
+							<td>{{history.userName}}</td>
+							<td>{{history.price}}</td>
+							<td>{{history.time | date:'dd/MM/yyyy hh:mm:ss'}}</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+
+	</div>
+	<section class="border border-warning rounded">
+		<div class="nav nav-tabs">
+			<li class="nav-item">
+				<a class="nav-link active">Mô tả sản phẩm</a>
+			</li>
+		</div>
+
+		<div class="p-3">
+			{{product.description}}
+		</div>
+	</section>
+	<!-- <section class="border border-warning rounded">
+		<div class="nav nav-tabs">
+			<li class="nav-item">
+				<a class="nav-link active">Hình thức đấu giá</a>
+			</li>
+		</div>
+
+		<div class="p-3">
+			{{product.auctionType.name}}
+		</div>
+	</section> -->
+</div>

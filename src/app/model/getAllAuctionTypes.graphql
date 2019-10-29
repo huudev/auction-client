@@ -1,0 +1,6 @@
+query getAllAuctionType {
+	auctionTypes {
+		id
+		name
+	}
+}

@@ -34,11 +34,31 @@ export type AmountMutationResponse = MutationResponse & {
   newAmount?: Maybe<Scalars['Int']>,
 };
 
+export type AuctionCondition = {
+   __typename?: 'AuctionCondition',
+  vipAccount?: Maybe<Scalars['Boolean']>,
+  accountActiveDay?: Maybe<Scalars['Int']>,
+};
+
+export type AuctionConditionInput = {
+  vipAccount?: Maybe<Scalars['Boolean']>,
+  accountActiveDay?: Maybe<Scalars['Int']>,
+};
+
 export type AuctionHistory = {
    __typename?: 'AuctionHistory',
-  time?: Maybe<Scalars['String']>,
+  time?: Maybe<Scalars['Date']>,
   price?: Maybe<Scalars['Int']>,
-  user?: Maybe<User>,
+  userName?: Maybe<Scalars['String']>,
+  userId?: Maybe<Scalars['String']>,
+};
+
+export type AuctionMutationResponse = MutationResponse & {
+   __typename?: 'AuctionMutationResponse',
+  code: Scalars['String'],
+  success: Scalars['Boolean'],
+  message: Scalars['String'],
+  productId?: Maybe<Scalars['String']>,
 };
 
 export type AuctionProduct = {
@@ -52,14 +72,16 @@ export type AuctionProduct = {
   images?: Maybe<Array<Maybe<Scalars['String']>>>,
   currentPrice?: Maybe<Scalars['Int']>,
   floorPrice?: Maybe<Scalars['Int']>,
+  ceilingPrice?: Maybe<Scalars['Int']>,
   priceStep?: Maybe<Scalars['Int']>,
   finalPrice?: Maybe<Scalars['Int']>,
   winner?: Maybe<Scalars['String']>,
   description?: Maybe<Scalars['String']>,
   status?: Maybe<Scalars['Int']>,
-  productCategory?: Maybe<Scalars['String']>,
-  auctionHistory?: Maybe<AuctionHistory>,
-  auctionType?: Maybe<Scalars['String']>,
+  productCategory?: Maybe<ProductCategory>,
+  auctionHistory?: Maybe<Array<Maybe<AuctionHistory>>>,
+  auctionCondition?: Maybe<AuctionCondition>,
+  auctionType?: Maybe<AuctionType>,
   owner?: Maybe<User>,
 };
 
@@ -95,6 +117,8 @@ export type Mutation = {
   rechare?: Maybe<AmountMutationResponse>,
   updateUser?: Maybe<AddUserMutationResponse>,
   lockUser?: Maybe<DeleteUserMutationResponse>,
+  addProduct?: Maybe<Response>,
+  auction?: Maybe<Response>,
 };
 
 
@@ -118,6 +142,18 @@ export type MutationLockUserArgs = {
   id?: Maybe<Scalars['String']>
 };
 
+
+export type MutationAddProductArgs = {
+  product?: Maybe<ProductInput>
+};
+
+
+export type MutationAuctionArgs = {
+  ownerId: Scalars['String'],
+  createTime: Scalars['Date'],
+  price: Scalars['Int']
+};
+
 export type MutationResponse = {
   code: Scalars['String'],
   success: Scalars['Boolean'],
@@ -128,6 +164,28 @@ export type ProductCategory = {
    __typename?: 'ProductCategory',
   id: Scalars['ID'],
   name?: Maybe<Scalars['String']>,
+};
+
+export type ProductInput = {
+  ownerId?: Maybe<Scalars['String']>,
+  createTime?: Maybe<Scalars['Date']>,
+  productName?: Maybe<Scalars['String']>,
+  startTime?: Maybe<Scalars['Date']>,
+  endTime?: Maybe<Scalars['Date']>,
+  avatar?: Maybe<Scalars['String']>,
+  images?: Maybe<Array<Maybe<Scalars['String']>>>,
+  currentPrice?: Maybe<Scalars['Int']>,
+  floorPrice?: Maybe<Scalars['Int']>,
+  priceStep?: Maybe<Scalars['Int']>,
+  stepPrice?: Maybe<Scalars['Int']>,
+  ceilingPrice?: Maybe<Scalars['Int']>,
+  finalPrice?: Maybe<Scalars['Int']>,
+  winner?: Maybe<Scalars['String']>,
+  description?: Maybe<Scalars['String']>,
+  status?: Maybe<Scalars['Int']>,
+  productCategory?: Maybe<Scalars['String']>,
+  auctionType?: Maybe<Scalars['String']>,
+  auctionCondition?: Maybe<AuctionConditionInput>,
 };
 
 export type Query = {
@@ -160,10 +218,33 @@ export type QueryAuctionProductArgs = {
   createTime: Scalars['Date']
 };
 
+
+export type QueryAuctionProductsArgs = {
+  ownerId?: Maybe<Scalars['String']>,
+  userId?: Maybe<Scalars['String']>
+};
+
+export type Response = {
+   __typename?: 'Response',
+  code: Scalars['String'],
+  success: Scalars['Boolean'],
+  message: Scalars['String'],
+};
+
 export type Role = {
    __typename?: 'Role',
   slug: Scalars['ID'],
   name?: Maybe<Scalars['String']>,
+};
+
+export type Subscription = {
+   __typename?: 'Subscription',
+  auctionAdded: AuctionProduct,
+};
+
+
+export type SubscriptionAuctionAddedArgs = {
+  product?: Maybe<ProductInput>
 };
 
 
@@ -184,6 +265,7 @@ export type User = {
   createTime?: Maybe<Scalars['Date']>,
   amount?: Maybe<Scalars['Int']>,
   role?: Maybe<Scalars['String']>,
+  products?: Maybe<Array<Maybe<AuctionProduct>>>,
 };
 
 export type UserInput = {
@@ -198,6 +280,34 @@ export type UserInput = {
   email?: Maybe<Scalars['String']>,
   role?: Maybe<Scalars['String']>,
 };
+
+export type AddAuctionMutationVariables = {
+  ownerId: Scalars['String'],
+  createTime: Scalars['Date'],
+  price: Scalars['Int']
+};
+
+
+export type AddAuctionMutation = (
+  { __typename?: 'Mutation' }
+  & { auction: Maybe<(
+    { __typename?: 'Response' }
+    & Pick<Response, 'code' | 'message' | 'success'>
+  )> }
+);
+
+export type AddProductMutationVariables = {
+  product?: Maybe<ProductInput>
+};
+
+
+export type AddProductMutation = (
+  { __typename?: 'Mutation' }
+  & { addProduct: Maybe<(
+    { __typename?: 'Response' }
+    & Pick<Response, 'code' | 'message' | 'success'>
+  )> }
+);
 
 export type AddUserMutationVariables = {
   user?: Maybe<UserInput>
@@ -216,6 +326,17 @@ export type AddUserMutation = (
   )> }
 );
 
+export type GetAllAuctionTypeQueryVariables = {};
+
+
+export type GetAllAuctionTypeQuery = (
+  { __typename?: 'Query' }
+  & { auctionTypes: Maybe<Array<Maybe<(
+    { __typename?: 'AuctionType' }
+    & Pick<AuctionType, 'id' | 'name'>
+  )>>> }
+);
+
 export type GetAllProductCategoryQueryVariables = {};
 
 
@@ -224,6 +345,56 @@ export type GetAllProductCategoryQuery = (
   & { productCategories: Maybe<Array<Maybe<(
     { __typename?: 'ProductCategory' }
     & Pick<ProductCategory, 'id' | 'name'>
+  )>>> }
+);
+
+export type GetAllProductsQueryVariables = {
+  ownerId?: Maybe<Scalars['String']>
+};
+
+
+export type GetAllProductsQuery = (
+  { __typename?: 'Query' }
+  & { auctionProducts: Maybe<Array<Maybe<(
+    { __typename?: 'AuctionProduct' }
+    & Pick<AuctionProduct, 'ownerId' | 'createTime' | 'productName' | 'startTime' | 'endTime' | 'avatar' | 'images' | 'currentPrice' | 'floorPrice' | 'ceilingPrice' | 'priceStep' | 'finalPrice' | 'winner' | 'description' | 'status'>
+    & { productCategory: Maybe<(
+      { __typename?: 'ProductCategory' }
+      & Pick<ProductCategory, 'id' | 'name'>
+    )>, auctionCondition: Maybe<(
+      { __typename?: 'AuctionCondition' }
+      & Pick<AuctionCondition, 'vipAccount' | 'accountActiveDay'>
+    )>, auctionType: Maybe<(
+      { __typename?: 'AuctionType' }
+      & Pick<AuctionType, 'id' | 'name'>
+    )>, owner: Maybe<(
+      { __typename?: 'User' }
+      & Pick<User, 'userName'>
+    )> }
+  )>>> }
+);
+
+export type GetAllProductExistQueryVariables = {};
+
+
+export type GetAllProductExistQuery = (
+  { __typename?: 'Query' }
+  & { auctionProductsExist: Maybe<Array<Maybe<(
+    { __typename?: 'AuctionProduct' }
+    & Pick<AuctionProduct, 'ownerId' | 'createTime' | 'productName' | 'startTime' | 'endTime' | 'avatar' | 'images' | 'currentPrice' | 'floorPrice' | 'ceilingPrice' | 'priceStep' | 'finalPrice' | 'winner' | 'description' | 'status'>
+    & { productCategory: Maybe<(
+      { __typename?: 'ProductCategory' }
+      & Pick<ProductCategory, 'id' | 'name'>
+    )>, auctionCondition: Maybe<(
+      { __typename?: 'AuctionCondition' }
+      & Pick<AuctionCondition, 'vipAccount' | 'accountActiveDay'>
+    )>, auctionType: Maybe<(
+      { __typename?: 'AuctionType' }
+      & Pick<AuctionType, 'id' | 'name'>
+    )>, owner: Maybe<(
+      { __typename?: 'User' }
+      & Pick<User, 'userName'>
+    )> }
   )>>> }
 );
 
@@ -236,6 +407,36 @@ export type GetAllUserQuery = (
     { __typename?: 'User' }
     & Pick<User, 'id' | 'userName' | 'amount' | 'createTime' | 'activeStatus' | 'role'>
   )>>> }
+);
+
+export type GetProductByIdQueryVariables = {
+  ownerId: Scalars['String'],
+  createTime: Scalars['Date']
+};
+
+
+export type GetProductByIdQuery = (
+  { __typename?: 'Query' }
+  & { auctionProduct: Maybe<(
+    { __typename?: 'AuctionProduct' }
+    & Pick<AuctionProduct, 'ownerId' | 'createTime' | 'productName' | 'startTime' | 'endTime' | 'avatar' | 'images' | 'currentPrice' | 'floorPrice' | 'ceilingPrice' | 'priceStep' | 'finalPrice' | 'winner' | 'description' | 'status'>
+    & { auctionHistory: Maybe<Array<Maybe<(
+      { __typename?: 'AuctionHistory' }
+      & Pick<AuctionHistory, 'time' | 'price' | 'userName' | 'userId'>
+    )>>>, productCategory: Maybe<(
+      { __typename?: 'ProductCategory' }
+      & Pick<ProductCategory, 'id' | 'name'>
+    )>, auctionCondition: Maybe<(
+      { __typename?: 'AuctionCondition' }
+      & Pick<AuctionCondition, 'vipAccount' | 'accountActiveDay'>
+    )>, auctionType: Maybe<(
+      { __typename?: 'AuctionType' }
+      & Pick<AuctionType, 'id' | 'name'>
+    )>, owner: Maybe<(
+      { __typename?: 'User' }
+      & Pick<User, 'userName'>
+    )> }
+  )> }
 );
 
 export type GetAllRoleQueryVariables = {};
@@ -259,6 +460,10 @@ export type GetUserByIdQuery = (
   & { user: Maybe<(
     { __typename?: 'User' }
     & Pick<User, 'id' | 'userName' | 'createTime' | 'amount' | 'firstName' | 'lastName' | 'address' | 'birthday' | 'phoneNumber' | 'email' | 'activeStatus' | 'role'>
+    & { products: Maybe<Array<Maybe<(
+      { __typename?: 'AuctionProduct' }
+      & Pick<AuctionProduct, 'ownerId' | 'createTime'>
+    )>>> }
   )> }
 );
 
@@ -303,6 +508,23 @@ export type RechareMutation = (
   )> }
 );
 
+export type SubscriptionAuctionSubscriptionVariables = {
+  product?: Maybe<ProductInput>
+};
+
+
+export type SubscriptionAuctionSubscription = (
+  { __typename?: 'Subscription' }
+  & { auctionAdded: (
+    { __typename?: 'AuctionProduct' }
+    & Pick<AuctionProduct, 'ownerId' | 'createTime' | 'winner'>
+    & { auctionHistory: Maybe<Array<Maybe<(
+      { __typename?: 'AuctionHistory' }
+      & Pick<AuctionHistory, 'time' | 'price' | 'userName' | 'userId'>
+    )>>> }
+  ) }
+);
+
 export type UpdateUserMutationVariables = {
   user?: Maybe<UserInput>
 };
@@ -321,6 +543,40 @@ export type UpdateUserMutation = (
 );
 
 
+export const AddAuctionDocument = gql`
+    mutation addAuction($ownerId: String!, $createTime: Date!, $price: Int!) {
+  auction(ownerId: $ownerId, createTime: $createTime, price: $price) {
+    code
+    message
+    success
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class AddAuctionGQL extends Apollo.Mutation<AddAuctionMutation, AddAuctionMutationVariables> {
+    document = AddAuctionDocument;
+    
+  }
+export const AddProductDocument = gql`
+    mutation addProduct($product: ProductInput) {
+  addProduct(product: $product) {
+    code
+    message
+    success
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class AddProductGQL extends Apollo.Mutation<AddProductMutation, AddProductMutationVariables> {
+    document = AddProductDocument;
+    
+  }
 export const AddUserDocument = gql`
     mutation addUser($user: UserInput) {
   addUser(user: $user) {
@@ -341,6 +597,22 @@ export const AddUserDocument = gql`
     document = AddUserDocument;
     
   }
+export const GetAllAuctionTypeDocument = gql`
+    query getAllAuctionType {
+  auctionTypes {
+    id
+    name
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class GetAllAuctionTypeGQL extends Apollo.Query<GetAllAuctionTypeQuery, GetAllAuctionTypeQueryVariables> {
+    document = GetAllAuctionTypeDocument;
+    
+  }
 export const GetAllProductCategoryDocument = gql`
     query getAllProductCategory {
   productCategories {
@@ -355,6 +627,94 @@ export const GetAllProductCategoryDocument = gql`
   })
   export class GetAllProductCategoryGQL extends Apollo.Query<GetAllProductCategoryQuery, GetAllProductCategoryQueryVariables> {
     document = GetAllProductCategoryDocument;
+    
+  }
+export const GetAllProductsDocument = gql`
+    query getAllProducts($ownerId: String) {
+  auctionProducts(ownerId: $ownerId) {
+    ownerId
+    createTime
+    productName
+    startTime
+    endTime
+    avatar
+    images
+    currentPrice
+    floorPrice
+    ceilingPrice
+    priceStep
+    finalPrice
+    winner
+    description
+    status
+    productCategory {
+      id
+      name
+    }
+    auctionCondition {
+      vipAccount
+      accountActiveDay
+    }
+    auctionType {
+      id
+      name
+    }
+    owner {
+      userName
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class GetAllProductsGQL extends Apollo.Query<GetAllProductsQuery, GetAllProductsQueryVariables> {
+    document = GetAllProductsDocument;
+    
+  }
+export const GetAllProductExistDocument = gql`
+    query getAllProductExist {
+  auctionProductsExist {
+    ownerId
+    createTime
+    productName
+    startTime
+    endTime
+    avatar
+    images
+    currentPrice
+    floorPrice
+    ceilingPrice
+    priceStep
+    finalPrice
+    winner
+    description
+    status
+    productCategory {
+      id
+      name
+    }
+    auctionCondition {
+      vipAccount
+      accountActiveDay
+    }
+    auctionType {
+      id
+      name
+    }
+    owner {
+      userName
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class GetAllProductExistGQL extends Apollo.Query<GetAllProductExistQuery, GetAllProductExistQueryVariables> {
+    document = GetAllProductExistDocument;
     
   }
 export const GetAllUserDocument = gql`
@@ -375,6 +735,56 @@ export const GetAllUserDocument = gql`
   })
   export class GetAllUserGQL extends Apollo.Query<GetAllUserQuery, GetAllUserQueryVariables> {
     document = GetAllUserDocument;
+    
+  }
+export const GetProductByIdDocument = gql`
+    query getProductById($ownerId: String!, $createTime: Date!) {
+  auctionProduct(ownerId: $ownerId, createTime: $createTime) {
+    ownerId
+    createTime
+    productName
+    startTime
+    endTime
+    avatar
+    images
+    currentPrice
+    floorPrice
+    ceilingPrice
+    priceStep
+    finalPrice
+    winner
+    description
+    status
+    auctionHistory {
+      time
+      price
+      userName
+      userId
+    }
+    productCategory {
+      id
+      name
+    }
+    auctionCondition {
+      vipAccount
+      accountActiveDay
+    }
+    auctionType {
+      id
+      name
+    }
+    owner {
+      userName
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class GetProductByIdGQL extends Apollo.Query<GetProductByIdQuery, GetProductByIdQueryVariables> {
+    document = GetProductByIdDocument;
     
   }
 export const GetAllRoleDocument = gql`
@@ -408,6 +818,10 @@ export const GetUserByIdDocument = gql`
     email
     activeStatus
     role
+    products {
+      ownerId
+      createTime
+    }
   }
 }
     `;
@@ -469,6 +883,29 @@ export const RechareDocument = gql`
   })
   export class RechareGQL extends Apollo.Mutation<RechareMutation, RechareMutationVariables> {
     document = RechareDocument;
+    
+  }
+export const SubscriptionAuctionDocument = gql`
+    subscription subscriptionAuction($product: ProductInput) {
+  auctionAdded(product: $product) {
+    ownerId
+    createTime
+    winner
+    auctionHistory {
+      time
+      price
+      userName
+      userId
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class SubscriptionAuctionGQL extends Apollo.Subscription<SubscriptionAuctionSubscription, SubscriptionAuctionSubscriptionVariables> {
+    document = SubscriptionAuctionDocument;
     
   }
 export const UpdateUserDocument = gql`

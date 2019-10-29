@@ -1,0 +1,7 @@
+ mutation addProduct($product: ProductInput) {
+	addProduct(product: $product){
+		code
+		message
+		success
+	}
+}
