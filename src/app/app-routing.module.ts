@@ -10,6 +10,7 @@ import { CreateAuctionComponent } from './create-auction/create-auction.componen
 import { AuthAdminGuardService } from './service/auth-admin-guard.service';
 import { CurrentAuctionComponent } from './current-auction/current-auction.component';
 import { MyAuctionComponent } from './my-auction/my-auction.component';
+import { UserInfomationComponent } from './user-infomation/user-infomation.component'
 
 const routes: Routes = [
   {
@@ -34,6 +35,9 @@ const routes: Routes = [
       },
       {
         path: 'sign-up', component: SignUpComponent
+      },
+      {
+        path: 'user-information', component: UserInfomationComponent
       }
     ]
   },
