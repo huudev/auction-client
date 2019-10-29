@@ -5,6 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { take } from 'rxjs/operators';
+// import {p} from '@ng'
 
 @Component({
   selector: 'app-card-user',
@@ -34,15 +35,15 @@ export class CardUserComponent implements OnInit {
 
   ngOnInit() {
     this.userForm = this.fb.group({
-      userName: ['', Validators.required],
-      password: ['', Validators.required],
+      userName: ['', [Validators.required,Validators.pattern('[A-Za-z0-9]{5,21}')]],
+      password: ['', [Validators.required, Validators.pattern('.{8,}$')]],
       lastName: ['', Validators.required],
       firstName: ['', Validators.required],
       address: ['', Validators.required],
-      birthday: ['', Validators.required],
-      phoneNumber: ['', Validators.required],
-      email: ['', Validators.required],
-      role: ['USERA', Validators.required]
+      birthday: ['', [Validators.required, Validators.pattern('')]],
+      phoneNumber: ['', [Validators.required, Validators.pattern('0[0-9\s.-]{9,13}')]],
+      email: ['', [Validators.required, Validators.pattern('^[a-z][a-z0-9_\.]+@[a-z0-9]{2,}(\.[a-z0-9]{2,4}){1,}$')]],
+      role: ['USERB', Validators.required]
     });
     if (!this.createUser) {
       this.route.paramMap.subscribe(param => {
@@ -105,6 +106,10 @@ export class CardUserComponent implements OnInit {
         this.toastrService.error('Có lỗi xảy ra');
       }
     });
+  }
+
+  abc(){
+    console.log(this.userForm);
   }
 
 }

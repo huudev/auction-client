@@ -7,17 +7,19 @@
 	visibility: hidden;
 	width: 0;
 	height: 0;
-  }
-
+	}
+	.nav-link{
+		color: #ffffff;
+	}
 ngb-carousel {
-    font-family: 'bebas_neueregular';
+	margin: 20px 0px ;
+  font-family: 'bebas_neueregular';
 	width: 100%;
 	min-width: 520px;
 	height: 480px;
 	position: relative;
-	margin: 0px auto;
 	overflow: hidden;
-	background: transparent url('assets/images/slider_bg.jpg') repeat 0% 0%;
+	background: transparent url('assets/images//icon/slidebackground.jpg') repeat 0% 0%;
 	box-shadow: 0px 1px 1px rgba(0,0,0,0.2), 0px -1px 4px #32AC9D;
 	-webkit-box-shadow: 0px 1px 1px rgba(0,0,0,0.2), 0px -1px 4px #32AC9D;
 	-moz-box-shadow: 0px 1px 1px rgba(0,0,0,0.2), 0px -1px 4px #32AC9D;
@@ -42,7 +44,6 @@ ngb-carousel > a span{
 	-webkit-border-radius: 5px;
 	-moz-border-radius: 5px;
 	-o-border-radius: 5px;
-	background: #38B4A7;
 	cursor: pointer;
 	z-index: 2000;
 	opacity: 0;
@@ -94,13 +95,9 @@ ngb-carousel > a span.carousel-control-prev-icon{
 ngb-carousel > a span.carousel-control-next-icon{
 	right: 15px;
 }
-
-app-footer div {
-	width: 100%;
-	background: #2DA89B;
-}
-
 .main_bg1{
-	border-top: 4px solid #47BEAF;
-	background: #40C4B2;
+	background: #3366cc;
+	box-shadow: 2px 1px 1px #2e5cb8;
+	padding: 5px;
+	color: #ffffff
 }
