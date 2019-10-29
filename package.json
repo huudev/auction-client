@@ -23,6 +23,7 @@
     "@angular/router": "~8.2.7",
     "@auth0/angular-jwt": "^3.0.0",
     "@ng-bootstrap/ng-bootstrap": "^5.1.1",
+    "@ng-validators/ng-validators": "^0.12.1",
     "angular-6-datatable": "^0.8.0",
     "apollo-angular": "^1.8.0",
     "apollo-angular-link-http": "^1.9.0",
