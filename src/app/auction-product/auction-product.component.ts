@@ -15,10 +15,10 @@ import * as ngValidators from '@ng-validators/ng-validators';
   styleUrls: ['./auction-product.component.css']
 })
 export class AuctionProductComponent implements OnInit, OnDestroy {
-  product: AuctionProduct;
+  product: any;
   subscriptionTimer: Subscription;
   user$: BehaviorSubject<any>;
-  auctionHistorys: AuctionHistory[] = [];
+  auctionHistorys: any[] = [];
   subscriptionAuction: Subscription;
   auctionForm: FormGroup;
 

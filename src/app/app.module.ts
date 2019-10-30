@@ -30,6 +30,8 @@ import { CurrentAuctionComponent } from './current-auction/current-auction.compo
 import { MyAuctionComponent } from './my-auction/my-auction.component';
 import { ListProductComponent } from './list-product/list-product.component';
 
+export function tokenGetter() { return localStorage.getItem('access_token'); }
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -57,9 +59,7 @@ import { ListProductComponent } from './list-product/list-product.component';
     HttpLinkModule,
     JwtModule.forRoot({
       config: {
-        tokenGetter: () => {
-          return localStorage.getItem("access_token");
-        },
+        tokenGetter,
         whitelistedDomains: ['localhost:4200', 'localhost:3000'],
         blacklistedRoutes: ['example.com/examplebadroute/'],
       }

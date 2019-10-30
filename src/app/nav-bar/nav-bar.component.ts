@@ -38,7 +38,7 @@ export class NavBarComponent implements OnInit {
   currentRole = [];
 
   constructor(
-    private auth: AuthService,
+    public auth: AuthService,
     private getUserByIdGQL: GetUserByIdGQL,
     private updateUserGQL: UpdateUserGQL,
     private toastrService: ToastrService) { }
