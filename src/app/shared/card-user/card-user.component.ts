@@ -5,7 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { take } from 'rxjs/operators';
-// import {p} from '@ng'
+import { maxDate } from '@ng-validators/ng-validators';
 
 @Component({
   selector: 'app-card-user',
@@ -34,15 +34,17 @@ export class CardUserComponent implements OnInit {
     private toastrService: ToastrService) { }
 
   ngOnInit() {
+    let date = new Date();
+    date.setFullYear(date.getFullYear() - 18);
     this.userForm = this.fb.group({
-      userName: ['', [Validators.required,Validators.pattern('[A-Za-z0-9]{5,21}')]],
+      userName: ['', [Validators.required, Validators.pattern('[A-Za-z0-9]{5,21}')]],
       password: ['', [Validators.required, Validators.pattern('.{8,}$')]],
-      lastName: ['', Validators.required],
-      firstName: ['', Validators.required],
+      lastName: ['', [Validators.required, Validators.pattern('^[a-zA-Z_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềếểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\\s]+$')]],
+      firstName: ['',[Validators.required, Validators.pattern('^[a-zA-Z_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềếểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\\s]+$')]],
       address: ['', Validators.required],
-      birthday: ['', [Validators.required, Validators.pattern('')]],
+      birthday: ['', [Validators.required, maxDate(date)]],
       phoneNumber: ['', [Validators.required, Validators.pattern('0[0-9\s.-]{9,13}')]],
-      email: ['', [Validators.required, Validators.pattern('^[a-z][a-z0-9_\.]+@[a-z0-9]{2,}(\.[a-z0-9]{2,4}){1,}$')]],
+      email: ['', [Validators.required, Validators.pattern('^[a-zA-Z][a-zA-Z0-9_\.]+@[a-z0-9]{2,}(\.[a-z0-9]{2,4}){1,}$')]],
       role: ['USERB', Validators.required]
     });
     if (!this.createUser) {
@@ -106,10 +108,6 @@ export class CardUserComponent implements OnInit {
         this.toastrService.error('Có lỗi xảy ra');
       }
     });
-  }
-
-  abc(){
-    console.log(this.userForm);
   }
 
 }

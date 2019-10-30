@@ -29,6 +29,7 @@ import { CreateAuctionComponent } from './create-auction/create-auction.componen
 import { CurrentAuctionComponent } from './current-auction/current-auction.component';
 import { MyAuctionComponent } from './my-auction/my-auction.component';
 import { ListProductComponent } from './list-product/list-product.component';
+import { UserInfomationComponent } from './user-infomation/user-infomation.component';
 
 export function tokenGetter() { return localStorage.getItem('access_token'); }
 
@@ -48,6 +49,7 @@ export function tokenGetter() { return localStorage.getItem('access_token'); }
     CurrentAuctionComponent,
     MyAuctionComponent,
     ListProductComponent,
+    UserInfomationComponent,
   ],
   imports: [
     SharedModule,
