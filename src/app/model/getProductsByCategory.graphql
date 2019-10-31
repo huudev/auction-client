@@ -1,0 +1,34 @@
+query getProductsByCategory($categoryId: String){
+  auctionProductsExist(categoryId: $categoryId){
+    ownerId
+	createTime
+	productName
+	startTime
+	endTime
+	avatar
+	images
+	currentPrice
+	floorPrice
+	ceilingPrice
+	priceStep
+	finalPrice
+	winner
+	description
+	status
+	productCategory {
+		id
+		name
+	}
+	auctionCondition {
+		vipAccount
+		accountActiveDay
+	}
+	auctionType {
+		id
+		name
+	}
+	owner {
+		userName
+	}
+  }
+}
