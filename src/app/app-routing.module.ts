@@ -11,12 +11,16 @@ import { AuthAdminGuardService } from './service/auth-admin-guard.service';
 import { CurrentAuctionComponent } from './current-auction/current-auction.component';
 import { MyAuctionComponent } from './my-auction/my-auction.component';
 import { UserInfomationComponent } from './user-infomation/user-infomation.component'
+import { CategoryComponent } from './category/category.component';
 
 const routes: Routes = [
   {
     path: '', component: LayoutComponent, children: [
       {
         path: '', component: HomeComponent, pathMatch: 'full'
+      },
+      {
+        path: 'category/:id', component: CategoryComponent
       },
       {
         path: 'auction-product/:ownerId/:createTime', component: AuctionProductComponent

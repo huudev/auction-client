@@ -30,6 +30,8 @@ import { CurrentAuctionComponent } from './current-auction/current-auction.compo
 import { MyAuctionComponent } from './my-auction/my-auction.component';
 import { ListProductComponent } from './list-product/list-product.component';
 import { UserInfomationComponent } from './user-infomation/user-infomation.component';
+import { environment } from 'src/environments/environment';
+import { CategoryComponent } from './category/category.component';
 
 export function tokenGetter() { return localStorage.getItem('access_token'); }
 
@@ -50,6 +52,7 @@ export function tokenGetter() { return localStorage.getItem('access_token'); }
     MyAuctionComponent,
     ListProductComponent,
     UserInfomationComponent,
+    CategoryComponent,
   ],
   imports: [
     SharedModule,
@@ -91,12 +94,12 @@ export class AppModule {
   ) {
     // Create an http link:
     const http = httpLink.create({
-      uri: 'http://localhost:3000/graphql'
+      uri: environment.server_url + 'graphql'
     });
 
     // Create a WebSocket link:
     const ws = new WebSocketLink({
-      uri: `ws://localhost:3000/graphql`,
+      uri: environment.server_ws_url,
       options: {
         reconnect: true
       }

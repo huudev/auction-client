@@ -225,6 +225,11 @@ export type QueryAuctionProductsArgs = {
   userId?: Maybe<Scalars['String']>
 };
 
+
+export type QueryAuctionProductsExistArgs = {
+  categoryId?: Maybe<Scalars['String']>
+};
+
 export type Response = {
    __typename?: 'Response',
   code: Scalars['String'],
@@ -447,6 +452,32 @@ export type GetProductByIdQuery = (
       & Pick<User, 'userName'>
     )> }
   )> }
+);
+
+export type GetProductsByCategoryQueryVariables = {
+  categoryId?: Maybe<Scalars['String']>
+};
+
+
+export type GetProductsByCategoryQuery = (
+  { __typename?: 'Query' }
+  & { auctionProductsExist: Maybe<Array<Maybe<(
+    { __typename?: 'AuctionProduct' }
+    & Pick<AuctionProduct, 'ownerId' | 'createTime' | 'productName' | 'startTime' | 'endTime' | 'avatar' | 'images' | 'currentPrice' | 'floorPrice' | 'ceilingPrice' | 'priceStep' | 'finalPrice' | 'winner' | 'description' | 'status'>
+    & { productCategory: Maybe<(
+      { __typename?: 'ProductCategory' }
+      & Pick<ProductCategory, 'id' | 'name'>
+    )>, auctionCondition: Maybe<(
+      { __typename?: 'AuctionCondition' }
+      & Pick<AuctionCondition, 'vipAccount' | 'accountActiveDay'>
+    )>, auctionType: Maybe<(
+      { __typename?: 'AuctionType' }
+      & Pick<AuctionType, 'id' | 'name'>
+    )>, owner: Maybe<(
+      { __typename?: 'User' }
+      & Pick<User, 'userName'>
+    )> }
+  )>>> }
 );
 
 export type GetAllRoleQueryVariables = {};
@@ -806,6 +837,50 @@ export const GetProductByIdDocument = gql`
   })
   export class GetProductByIdGQL extends Apollo.Query<GetProductByIdQuery, GetProductByIdQueryVariables> {
     document = GetProductByIdDocument;
+    
+  }
+export const GetProductsByCategoryDocument = gql`
+    query getProductsByCategory($categoryId: String) {
+  auctionProductsExist(categoryId: $categoryId) {
+    ownerId
+    createTime
+    productName
+    startTime
+    endTime
+    avatar
+    images
+    currentPrice
+    floorPrice
+    ceilingPrice
+    priceStep
+    finalPrice
+    winner
+    description
+    status
+    productCategory {
+      id
+      name
+    }
+    auctionCondition {
+      vipAccount
+      accountActiveDay
+    }
+    auctionType {
+      id
+      name
+    }
+    owner {
+      userName
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class GetProductsByCategoryGQL extends Apollo.Query<GetProductsByCategoryQuery, GetProductsByCategoryQueryVariables> {
+    document = GetProductsByCategoryDocument;
     
   }
 export const GetAllRoleDocument = gql`
