@@ -12,6 +12,7 @@ section .section-title {
 }
 #footer {
     background: #007b5e !important;
+    margin-top: 100px;
 }
 #footer h5{
 	padding-left: 10px;

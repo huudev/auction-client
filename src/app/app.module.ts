@@ -99,7 +99,7 @@ export class AppModule {
 
     // Create a WebSocket link:
     const ws = new WebSocketLink({
-      uri: environment.server_ws_url,
+      uri: environment.server_ws_url + 'graphql',
       options: {
         reconnect: true
       }

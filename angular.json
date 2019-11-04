@@ -24,8 +24,8 @@
               "src/assets"
             ],
             "styles": [
-              
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "node_modules/placeholder-loading/dist/css/placeholder-loading.min.css",
               "node_modules/ngx-toastr/toastr.css",
               "src/styles.css"
             ],

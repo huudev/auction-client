@@ -1,14 +1,105 @@
-<div *ngIf="product" class="container-fluid ">
+<div [class.d-none]="product" class="container-fluid ">
 	<div class="row">
 		<div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
 
 			<div class="row">
 				<div class="col-xs-5 col-sm-5 col-md-5 col-lg-5">
 					<!-- Avatar -->
-					<img [src]="product?.avatarUrl" class="img-fluid" alt="Hình sản phẩm">
+					<div class="ph-item">
+						<div class="ph-picture"></div>
+						<div class="ph-picture"></div>
+					</div>
 				</div>
 
 				<div class="col-xs-7 col-sm-7 col-md-7 col-lg-7">
+					<!-- //Thông tin sản phẩm --><br>
+					<div class="ph-item">
+						<div class="ph-col-12">
+							<div class="ph-row">
+								<div class="ph-col-10 big"></div>
+								<div class="ph-col-2 big empty"></div>
+								<div class="ph-col-6"></div>
+								<div class="ph-col-4 empty"></div>
+								<div class="ph-col-12 empty"></div>
+								<div class="ph-col-6"></div>
+								<div class="ph-col-4 empty"></div>
+								<div class="ph-col-12 empty"></div>
+								<div class="ph-col-6"></div>
+								<div class="ph-col-4 empty"></div>
+								<div class="ph-col-6"></div>
+								<div class="ph-col-4 empty"></div>
+								<div class="ph-col-4"></div>
+								<div class="ph-col-6 empty"></div>
+							</div>
+							<div class="ph-row">
+								<div class="ph-col-12 empty"></div>
+								<div class="ph-col-4"></div>
+								<div class="ph-col-6 empty"></div>
+								<div class="ph-col-12 empty"></div>
+								<div class="ph-col-4"></div>
+								<div class="ph-col-6 empty"></div>
+							</div>
+						</div>
+					</div>
+					<br>
+
+					<!-- <div class="progress">
+					<div class="progress-bar progress-bar-danger progress-bar-striped" role="progressbar"
+						style="width: 50%;">
+						<span class="sr-only"> 01:20:21 </span>
+					</div>
+				</div> -->
+
+					<!-- <h4>
+					<label>Giá được đặt cao nhất của sản phẩm hiện tại:
+						<span style="color:red">10.000.000đ</span>
+					</label>
+	
+				</h4> -->
+
+					<!-- <br> -->
+					<!-- <label>Sản phẩm này bạn đang tham gia đấu giá</label> -->
+					<!-- <label>Giá đặt cao nhất của bạn là </label> <span>10.000.000đ</span> -->
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+					<!-- Mô tả --><br>
+					<div class="ph-item">
+						<div class="ph-picture"></div>
+					</div>
+				</div>
+			</div>
+
+
+		</div>
+
+
+		<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+			<!-- //Table -->
+			<div class="ph-item">
+				<div class="ph-col-12">
+					<div class="ph-row">
+						<div class="ph-col-12 big"></div>
+					</div>
+					<div class="ph-picture"></div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+</div>
+<div [class.d-none]="!product" class="container-fluid">
+	<div class="row">
+		<div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+
+			<div class="row">
+				<div *ngIf="product" class="col-xs-5 col-sm-5 col-md-5 col-lg-5">
+					<!-- Avatar -->
+					<img [src]="product?.avatarUrl" class="img-fluid" alt="Hình sản phẩm">
+				</div>
+				<div *ngIf="product" class="col-xs-7 col-sm-7 col-md-7 col-lg-7">
 					<!-- //Thông tin sản phẩm --><br>
 					<h2>{{product.productName}}</h2>
 					<p>Chủ phiên: {{product.owner.userName}}</p>
@@ -20,7 +111,7 @@
 					<br>
 					<div [ngSwitch]="product.liveStatus">
 						<div *ngSwitchCase="1">
-							<span class="badge badge-success">Đang diễn ra</span>
+							<p>Trạng thái: <span class="badge badge-success">Đang diễn ra</span></p>
 							<br>
 							<label *ngIf="product.timer">Còn lại
 								<span>{{ product.timer?.day ? product.timer?.day+' ngày ' : '' }}{{ product.timer?.hour }}:{{ product.timer?.minute }}:{{product.timer?.second}}
@@ -37,13 +128,12 @@
 									</div>
 									<br>
 									<button [disabled]="auctionForm.invalid" (click)="auction()" type="button"
-										class="btn btn-success">Đặt
-										đấu giá</button>
+										class="btn btn-success">Đặt đấu giá</button>
 								</form>
 							</ng-container>
 						</div>
 						<div *ngSwitchCase="2">
-							<p class="badge badge-danger">Đã kết thúc</p>
+							<P>Trạng thái: <label class="badge badge-danger">Đã kết thúc</label></P>
 							<br>
 							<ng-container *ngIf="product.winner">
 								Tên đăng nhập người chiến thắng
@@ -51,9 +141,9 @@
 							</ng-container>
 						</div>
 						<div *ngSwitchCase="0">
-							<span class="badge badge-warning">Sắp diễn ra</span>
+							<p>Trạng thái: <span class="badge badge-warning">Sắp diễn ra</span></p>
 							<br>
-							<label>{{product.startTime | date:'dd/MM/yyyy hh:mm:ss'}}</label>
+							<label>{{product.startTime | date:'short'}}</label>
 						</div>
 					</div>
 
@@ -88,7 +178,7 @@
 						</div>
 
 						<div class="p-3">
-							{{product.description}}
+							{{product?.description}}
 						</div>
 					</section>
 					<!-- <section class="border border-warning rounded">
@@ -105,38 +195,40 @@
 				</div>
 			</div>
 
-
+			<div class="row">
+				<canvas
+					[class.d-none]="!product?.auctionType.id=='277f6be0-6d08-4128-a3a7-e39629c541ce'&&auctionHistorys&&auctionHistorys.length>0"
+					id="barChart" class="col-xs-12 col-sm-12 col-md-8 col-lg-8"></canvas>
+			</div>
 		</div>
 
 
 		<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
 			<!-- //Table -->
 			<div
-				*ngIf="product.auctionType.id=='277f6be0-6d08-4128-a3a7-e39629c541ce'&&auctionHistorys&&auctionHistorys.length>0">
+				*ngIf="product?.auctionType.id=='277f6be0-6d08-4128-a3a7-e39629c541ce'&&auctionHistorys&&auctionHistorys.length>0">
 				<span class="label label-success">Bảng danh sách thông tin đấu giá</span>
 				<div class="table-responsive">
 					<table class="table table-bordered table-striped table-border">
 						<thead>
 							<tr>
-								<th>STT</th>
+								<th>Xếp hạng</th>
 								<th>ID tham gia</th>
 								<th>Số tiền (VNĐ)</th>
 								<th>Thời gian</th>
 							</tr>
 						</thead>
 						<tbody>
-							<tr *ngFor="let history of auctionHistorys.reverse();let i=index">
-								<td>{{i}}</td>
+							<tr *ngFor="let history of auctionHistorys;let i=index">
+								<td>{{i+1}}</td>
 								<td>{{history.userName}}</td>
-								<td>{{history.price}}</td>
-								<td>{{history.time | date:'dd/MM/yyyy hh:mm:ss'}}</td>
+								<td>{{history.price | currency:'VND'}}</td>
+								<td>{{history.time | date:'short'}}</td>
 							</tr>
 						</tbody>
 					</table>
 				</div>
 			</div>
 		</div>
-
 	</div>
-
 </div>

@@ -4,9 +4,16 @@
 
 export const environment = {
   production: false,
-  server_url: 'http://localhost:3000/',
-  server_ws_url: 'ws://localhost:3000/graphql'
+  server_port: 3000,
+  get server_url() { return `http://${window.location.hostname}:${this.server_port}/`; },
+  get server_ws_url() { return `ws://${window.location.hostname}:${this.server_port}/`; }
 };
+
+// export const environment = {
+//   production: false,
+//   server_url: 'http://localhost:3000/',
+//   server_ws_url: 'ws://localhost:3000/graphql'
+// };
 
 /*
  * For easier debugging in development mode, you can import the following file
