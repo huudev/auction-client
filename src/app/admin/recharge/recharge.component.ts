@@ -50,7 +50,7 @@ export class RechargeComponent implements OnInit {
         return { userExist: true };
       }
       this.userForm.get('userName').setValue(user.userName);
-      this.userForm.get('fullName').setValue(user.lastName + ' ' + user.lastName);
+      this.userForm.get('fullName').setValue(user.lastName + ' ' + user.firstName);
       this.userForm.get('currentAmount').setValue(user.amount || 0);
       return null;
     }));

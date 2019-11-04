@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, AfterContentInit } from '@angular/core';
-import { GetProductByIdGQL, AuctionProduct, SubscriptionAuctionGQL, AddAuctionGQL, AuctionHistory, GetUserByIdGQL } from '../model';
+import { GetProductByIdGQL, AuctionProduct, SubscriptionAuctionGQL, AddAuctionGQL, AuctionHistory, GetUserByIdGQL, User } from '../model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { interval, Subscription, Observable, BehaviorSubject } from 'rxjs';
@@ -10,6 +10,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import * as ngValidators from '@ng-validators/ng-validators';
 import { Chart } from 'chart.js';
 import { DatePipe, CurrencyPipe } from '@angular/common';
+import { map, take } from 'rxjs/operators';
 @Component({
   selector: 'app-auction-product',
   templateUrl: './auction-product.component.html',
@@ -24,12 +25,14 @@ export class AuctionProductComponent implements OnInit, OnDestroy, AfterContentI
   subscriptionAuction: Subscription;
   auctionForm: FormGroup;
   barChart: any;
+  userDetails$: Observable<string>;
 
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
     private getProductByIdGQL: GetProductByIdGQL,
+    private getUserByIdGQL: GetUserByIdGQL,
     private authService: AuthService,
     private toastrService: ToastrService,
     private subscriptionAuctionGQL: SubscriptionAuctionGQL,
@@ -89,6 +92,9 @@ export class AuctionProductComponent implements OnInit, OnDestroy, AfterContentI
     });
 
     this.subscriptionTimer = interval(1000).subscribe(() => {
+      if (!this.userDetails$ && this.product && this.product.winner) {
+          this.getUserDetails(this.product.winner);
+      }
 
       if (this.product) {
 
@@ -161,6 +167,15 @@ export class AuctionProductComponent implements OnInit, OnDestroy, AfterContentI
 
   }
 
+  getUserDetails(userName) {
+    this.userDetails$ = this.getUserByIdGQL.fetch({ userName }).pipe(take(1),
+      map(result => result.data.user),
+      map(user => `
+      Họ: ${user.lastName}
+      Tên: ${user.firstName}
+      Số điện thoại: ${user.phoneNumber}`));
+  }
+
   updateChart() {
     this.barChart.data.labels.length = 0;
     this.barChart.data.datasets[0].data.length = 0;
@@ -217,6 +232,14 @@ export class AuctionProductComponent implements OnInit, OnDestroy, AfterContentI
             ticks: {
               callback: (label, index, labels) => {
                 return this.currencyPipe.transform(label, 'VND');
+              }
+            },
+          }],
+          yAxes: [{
+            ticks: {
+              callback: (label, index, labels) => {
+                const history = this.auctionHistorys[index];
+                return label + ' ' + this.datePipe.transform(history.time, 'short');
               }
             },
           }]

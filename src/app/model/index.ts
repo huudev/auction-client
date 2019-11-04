@@ -210,7 +210,8 @@ export type QueryLoginArgs = {
 
 
 export type QueryUserArgs = {
-  id: Scalars['ID']
+  id?: Maybe<Scalars['ID']>,
+  userName?: Maybe<Scalars['String']>
 };
 
 
@@ -503,7 +504,8 @@ export type ThongKeQuery = (
 );
 
 export type GetUserByIdQueryVariables = {
-  id: Scalars['ID']
+  id?: Maybe<Scalars['ID']>,
+  userName?: Maybe<Scalars['String']>
 };
 
 
@@ -916,8 +918,8 @@ export const ThongKeDocument = gql`
     
   }
 export const GetUserByIdDocument = gql`
-    query getUserById($id: ID!) {
-  user(id: $id) {
+    query getUserById($id: ID, $userName: String) {
+  user(id: $id, userName: $userName) {
     id
     userName
     createTime

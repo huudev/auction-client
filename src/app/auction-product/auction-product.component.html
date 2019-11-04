@@ -136,8 +136,10 @@
 							<P>Trạng thái: <label class="badge badge-danger">Đã kết thúc</label></P>
 							<br>
 							<ng-container *ngIf="product.winner">
-								Tên đăng nhập người chiến thắng
-								<span class="badge badge-warning">{{product.winner}}</span>
+								<p>ID người chiến thắng <span class="badge badge-warning">{{product.winner}}</span></p>
+								<p>
+									{{ userDetails$ | async }}
+								</p>
 							</ng-container>
 						</div>
 						<div *ngSwitchCase="0">

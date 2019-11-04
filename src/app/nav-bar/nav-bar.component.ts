@@ -60,6 +60,7 @@ export class NavBarComponent implements OnInit {
     const user = this.auth.user$.value;
     this.getUserByIdGQL.fetch({ id: user.id }, { fetchPolicy: 'network-only' }).subscribe(rs => {
       const user = rs.data.user;
+      user.amount = user.amount || 0;
       if (user.vipMember) {
         this.toastrService.info('Bạn đã là thành viên vip, nếu chưa dùng được chức năng vip vui lòng đăng nhập lại');
         return;

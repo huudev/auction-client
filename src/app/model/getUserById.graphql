@@ -1,5 +1,5 @@
-query getUserById($id: ID!){
-  user(id: $id){
+query getUserById($id: ID,$userName: String){
+  user(id: $id,userName: $userName){
     id
     userName
     createTime
